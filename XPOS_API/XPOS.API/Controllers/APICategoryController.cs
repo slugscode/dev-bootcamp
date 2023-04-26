@@ -77,7 +77,7 @@ namespace XPOS.API.Controllers
 
                     respon.Message = "Data success updated";
                 }
-                catch (Exception e)//kalua update gagal maka masuk ke catch
+                catch (Exception e)//kalau update gagal maka masuk ke catch
                 {
                     respon.Success = false;
                     respon.Message = "Update failed : " + e.Message;
@@ -92,8 +92,8 @@ namespace XPOS.API.Controllers
 
             return respon;
         }
-        [HttpDelete("DeleteCategory/{Id}")]
 
+        [HttpDelete("DeleteCategory/{Id}")]
         public VMRespons DeleteCategory(int Id)
         {
             TblCategory data = db.TblCategories.Where(a => a.Id == Id).FirstOrDefault();
@@ -113,7 +113,7 @@ namespace XPOS.API.Controllers
                 {
                     respon.Success = false;
                     respon.Message = "Delete failed :" + e.Message;
-                }
+ ;               }
             }
             else
             {

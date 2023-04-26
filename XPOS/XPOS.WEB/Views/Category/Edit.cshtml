@@ -1,0 +1,16 @@
+﻿@using XPOS.API.Models;
+@model TblCategory
+
+<form asp-action="Edit" method="post">
+    <div class="mb-3">
+        <label for="NameCategory" class="form-label">Name Category</label>
+        <input type="text" class="form-control" id="NameCategory" value="@Model.NamaCategory">
+    </div>
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description</label>
+        <textarea class="form-control" id="Description" rows="3">@Model.Description
+            </textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
