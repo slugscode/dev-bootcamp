@@ -31,6 +31,7 @@ namespace XPOS.API.Controllers
         {
             TblCategory dataCategory = new TblCategory();
             dataCategory = db.TblCategories.Where(a => a.Id == Id).FirstOrDefault();
+
             return dataCategory;
         }
 

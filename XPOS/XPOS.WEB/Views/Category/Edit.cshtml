@@ -4,13 +4,14 @@
 <form asp-action="Edit" method="post">
     <div class="mb-3">
         <label for="NameCategory" class="form-label">Name Category</label>
-        <input type="text" class="form-control" id="NameCategory" value="@Model.NamaCategory">
+        <input type="text" class="form-control" id="NameCategory" name="NamaCategory" value="@Model.NamaCategory">
     </div>
     <div class="mb-3">
         <label for="Description" class="form-label">Description</label>
-        <textarea class="form-control" id="Description" rows="3">@Model.Description
+        <textarea class="form-control" id="Description" rows="3" name="Description">@Model.Description
             </textarea>
     </div>
 
+    <a asp-action="Index" asp-controller="Category" class="btn btn-light">Cancel</a>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

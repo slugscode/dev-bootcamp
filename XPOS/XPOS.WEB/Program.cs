@@ -8,6 +8,9 @@ builder.Services.AddControllersWithViews();
 // Add service untuk panggil api 
 builder.Services.AddScoped<CategoryService>();
 
+//Add service untuk panggil api
+builder.Services.AddScoped<VariantService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

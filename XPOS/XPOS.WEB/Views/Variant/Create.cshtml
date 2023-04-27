@@ -1,0 +1,15 @@
+﻿@using XPOS.API.Models;
+@model VMVariant
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label for="NameVariant" class="form-label">Name Variant</label>
+        <input type="text" class="form-control" id="NameVariant" value="@Model.NameVariant" name="NameVariant">
+    </div>
+<div class="mb-3">
+    <label for="Description" class="form-label">Description</label>
+        <textarea class="form-control" id="Description" rows="3" name="Description">@Model.Description</textarea>
+</div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
