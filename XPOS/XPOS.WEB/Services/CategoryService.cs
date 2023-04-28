@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Text;
-using XPOS.API.Models;
 using XPOS_ViewModels;
+using XPOS.API.Models;
 
 namespace XPOS.WEB.Services
 {

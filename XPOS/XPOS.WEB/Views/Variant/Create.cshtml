@@ -1,7 +1,14 @@
-﻿@using XPOS.API.Models;
+﻿@using XPOS_ViewModels;
 @model VMVariant
 
 <form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label for="IdCategory" class="form-label">NamaCategory</label>
+        @Html.DropDownListFor(a => a.IdCategory,
+            new SelectList(ViewBag.ListCategory, "Id","NamaCategory"),"Select Category",
+            new{ @class="form-control"})
+
+    </div>
     <div class="mb-3">
         <label for="NameVariant" class="form-label">Name Variant</label>
         <input type="text" class="form-control" id="NameVariant" value="@Model.NameVariant" name="NameVariant">
@@ -11,5 +18,6 @@
         <textarea class="form-control" id="Description" rows="3" name="Description">@Model.Description</textarea>
 </div>
 
+    <a asp-action="Index" asp-controller="Variant" class="btn btn-light">Cancel</a>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

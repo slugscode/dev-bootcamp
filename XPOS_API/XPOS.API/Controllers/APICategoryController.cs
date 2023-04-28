@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Security;
+﻿using Microsoft.AspNetCore.Mvc;
 using XPOS.API.Models;
 using XPOS_ViewModels;
 

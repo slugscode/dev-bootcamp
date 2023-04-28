@@ -23,7 +23,7 @@ namespace XPOS.WEB.Controllers
         public IActionResult Create()
         {
             TblCategory category = new TblCategory();
-            return View();
+            return View(category);
         }
         [HttpPost]
         public async Task<IActionResult> Create(TblCategory data)

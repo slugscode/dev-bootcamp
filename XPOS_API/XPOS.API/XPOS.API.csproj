@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\XPOS_ViewModels\XPOS_ViewModels.csproj" />
+    <ProjectReference Include="..\..\XPOS_ViewModels\XPOS_ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

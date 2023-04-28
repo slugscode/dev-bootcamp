@@ -1,0 +1,40 @@
+﻿@using XPOS_ViewModels;
+@model VMVariant
+
+@{
+    ViewData["Title"] = "Detail Variant";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+<div class="mb-3">
+    <label for="IdCategory" class="form-label">Id Category</label>
+    <input type="text" class="form-control" id="IdCategory" name="IdCategory" value="@Model.NamaCategory" readonly>
+</div>
+<div class="mb-3">
+    <label for="NameCategory" class="form-label">Name Variant</label>
+    <input type="text" class="form-control" id="NameCategory" name="NameCategory" value="@Model.NamaCategory" readonly>
+</div>
+<div class="mb-3">
+    <label for="Description" class="form-label">Description</label>
+    <textarea class="form-control" id="Description" name="Description" rows="3">@Model.Description</textarea>
+</div>
+<div class="mb-3">
+    <label for="CreateBy" class="form-label">Create By</label>
+    <input class="form-control" id="CreateBy" value="@Model.CreateBy" readonly>
+</div>
+<div class="mb-3">
+    <label for="CreateDate" class="form-label">Create Date</label>
+    <input class="form-control" id="CreateDate" value="@Model.CreateDate" readonly>
+</div>
+<div class="mb-3">
+    <label for="UpdateBy" class="form-label">Update By</label>
+    <input class="form-control" id="UpdateBy" value="@Model.UpdateBy" readonly>
+</div>
+<div class="mb-3">
+    <label for="UpdateDate" class="form-label">Update Date</label>
+    <input class="form-control" id="UpdateDate" value="@Model.UpdateDate" readonly>
+</div>
+
+<a asp-action="Index" asp-controller="Variant" class="btn btn-light">Cancel</a>
+

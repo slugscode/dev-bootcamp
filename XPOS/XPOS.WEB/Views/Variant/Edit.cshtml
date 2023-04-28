@@ -1,0 +1,24 @@
+﻿@using XPOS_ViewModels;
+@model VMVariant
+
+<form asp-action="Edit" method="post">
+    <div class="Create">
+        <label for="IdCategory" class="form-label">Category</label>
+        @Html.DropDownListFor(a => a.IdCategory,
+                              new SelectList(ViewBag.ListCategory,"Id","NamaCategory"),
+                              new{@class="form-control"})
+    </div>
+    <div class="Create">
+        <label for="NameVariant" class="form-label">Name Variant</label>
+        <input type="text" class="form-control" id="NameVariant" name="NameVariant" value="@Model.NameVariant">
+    </div>
+
+    <div class="Create">
+        <label for="Description" class="form-label">Description</label>
+        <textarea class="form-control" id="Description" rows="3" name="Description">@Model.Description
+            </textarea>
+    </div>
+
+    <a asp-action="Index" asp-controller="Variant" class="btn btn-light">Cancel</a>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>  

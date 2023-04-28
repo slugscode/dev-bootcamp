@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Security;
+﻿using Microsoft.AspNetCore.Mvc;
 using XPOS.API.Models;
 using XPOS_ViewModels;
 
@@ -21,7 +19,7 @@ namespace XPOS.API.Controllers
         [HttpGet("GetAllVariant")]//untuk memunculkan keseluruhan data sehingga menggunakan List
         public List<VMVariant> GetAllVariant()
         {
-            List<VMVariant> dataVariant = new List<VMVariant>();//namavariabelnya adalah datavariant
+            List<VMVariant> dataVariant = new List<VMVariant>();      //namavariabelnya adalah datavariant
 
             dataVariant = (from v in db.TblVariants
                            join c in db.TblCategories
@@ -35,7 +33,6 @@ namespace XPOS.API.Controllers
 
                                IdCategory = v.IdCategory,
                                NamaCategory = c.NamaCategory,
-
                                IsDelete = v.IsDelete
 
 
@@ -45,7 +42,8 @@ namespace XPOS.API.Controllers
             return dataVariant;//jangan lupa untuk return 
         }
 
-        [HttpGet("GetbyId /{Id}")]//untuk memunculkan atau mendapatkan datu objek sehingga digunakan TblVariant
+     
+        [HttpGet("GetbyId /{Id}")]//untuk memunculkan atau mendapatkan satu objek sehingga digunakan TblVariant
         public VMVariant GetById(int Id)
         {
             VMVariant dataVariant = new VMVariant();
@@ -88,14 +86,14 @@ namespace XPOS.API.Controllers
             catch(Exception e)//fungsi untuk menerima data kalau datanya gagal
             {
                 respon.Success = false;
-                respon.Message ="failed saved: "  + e.InnerException;
+                respon.Message ="Failed saved: "  + e.InnerException;
             }
             return respon;
         }
         [HttpPut("PutVariant")]
         public VMRespons PutVariant(TblVariant data)
         {
-            TblVariant dataOld = db.TblVariants.Where(b => b.Id == data.Id).FirstOrDefault();
+            TblVariant dataOld = db.TblVariants.Where(a => a.Id == data.Id).FirstOrDefault();
 
             if (dataOld != null)
             {
@@ -128,7 +126,7 @@ namespace XPOS.API.Controllers
         [HttpDelete("DeleteVariant/{Id}")]
         public VMRespons DeleteVariant(int Id)
         {
-            TblVariant data = db.TblVariants.Where(b => b.Id == Id).FirstOrDefault();
+            TblVariant data = db.TblVariants.Where(a => a.Id == Id).FirstOrDefault();
 
             if (data != null)
             {
@@ -154,4 +152,5 @@ namespace XPOS.API.Controllers
         }
 
     }
+
 }
