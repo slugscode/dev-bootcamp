@@ -3,6 +3,8 @@
 
 <form asp-action="Edit" method="post">
     <div class="mb-3">
+        <input type="hidden" name="Id" value="@Model.Id" />
+
         <label for="NameCategory" class="form-label">Name Category</label>
         <input type="text" class="form-control" id="NameCategory" name="NamaCategory" value="@Model.NamaCategory">
     </div>

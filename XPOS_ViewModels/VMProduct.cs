@@ -12,7 +12,10 @@ namespace XPOS_ViewModels
         public string NameProduct { get; set; } = null!;
         public decimal Price { get; set; }
         public int Stock { get; set; }
+        public string NamaCategory { get; set; }
         public int IdVariant { get; set; }
+        public int IdCategory { get; set; }
+        public string NameVariant { get; set; }
         public string? Image { get; set; }
         public bool? IsDelete { get; set; }
         public int CreateBy { get; set; }

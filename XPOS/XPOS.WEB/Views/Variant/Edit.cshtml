@@ -2,18 +2,18 @@
 @model VMVariant
 
 <form asp-action="Edit" method="post">
-    <div class="Create">
+    <div class="Edit">
         <label for="IdCategory" class="form-label">Category</label>
         @Html.DropDownListFor(a => a.IdCategory,
                               new SelectList(ViewBag.ListCategory,"Id","NamaCategory"),
                               new{@class="form-control"})
     </div>
-    <div class="Create">
+    <div class="Edit">
         <label for="NameVariant" class="form-label">Name Variant</label>
         <input type="text" class="form-control" id="NameVariant" name="NameVariant" value="@Model.NameVariant">
     </div>
 
-    <div class="Create">
+    <div class="">
         <label for="Description" class="form-label">Description</label>
         <textarea class="form-control" id="Description" rows="3" name="Description">@Model.Description
             </textarea>

@@ -23,7 +23,7 @@ namespace XPOS.WEB.Controllers
         public IActionResult Create()
         {
             TblCategory category = new TblCategory();
-            return View(category);
+            return PartialView(category);
         }
         [HttpPost]
         public async Task<IActionResult> Create(TblCategory data)
@@ -40,7 +40,7 @@ namespace XPOS.WEB.Controllers
         public async Task<IActionResult> Edit(int Id)
         {
             TblCategory dataCategory = await category_service.GetById(Id);
-            return View(dataCategory);
+            return PartialView(dataCategory);
         }
         [HttpPost]
         public async Task<IActionResult> Edit(TblCategory data)
@@ -58,12 +58,12 @@ namespace XPOS.WEB.Controllers
         public async Task<IActionResult> Detail(int Id)
         {
             TblCategory dataCategory = await category_service.GetById(Id);
-            return View(dataCategory);
+            return PartialView(dataCategory);
         }
         public async Task<IActionResult> Delete(int Id)
         {
             TblCategory data = await category_service.GetById(Id);
-            return View(data);
+            return PartialView(data);
         }
         public async Task<IActionResult> SureDelete(int Id)
         {

@@ -1,0 +1,11 @@
+﻿@using XPOS_ViewModels;
+@model VMProduct
+
+<h1> Are you sure want delete @Model.NameProduct</h1>
+
+<form asp-action="SureDelete">
+    <input type="hidden" value="@Model.Id" name="Id" id="Id" />
+
+    <a asp-action="Index" asp-controller="Product" class="btn btn-light">Cancel</a>
+    <button class=" btn btn-danger">Sure</button>
+</form>

@@ -11,6 +11,9 @@ builder.Services.AddScoped<CategoryService>();
 //Add service untuk panggil api
 builder.Services.AddScoped<VariantService>();
 
+//Add service untuk panggil api product
+builder.Services.AddScoped<ProductService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

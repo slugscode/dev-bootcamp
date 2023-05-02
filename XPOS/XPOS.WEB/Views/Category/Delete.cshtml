@@ -1,9 +1,11 @@
 ﻿@using XPOS.API.Models;
 @model TblCategory
 
-<h1> Are you sure want delete @Model.NamaCategory</h1>
+<h5> Are you sure want to delete @Model.NamaCategory ???</h5>
 <form asp-action="SureDelete">
+
     <input type="hidden" value="@Model.Id" name="Id" id="Id"/>
+
     <a asp-action="Index" asp-controller="Category" class="btn btn-light">Cancel</a>
     <button class=" btn btn-danger">Sure</button>
 

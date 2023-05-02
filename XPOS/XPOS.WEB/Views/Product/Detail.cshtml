@@ -1,0 +1,52 @@
+﻿@using XPOS_ViewModels;
+@model VMProduct
+
+@{
+    ViewData["Title"] = "Detail Product";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+<div class="mb-3">
+    <label for="Id" class="form-label">Id Product</label>
+    <input type="text" class="form-control" id="IdProduct" name="IdProduct" value="@Model.Id" readonly>
+</div>
+<div class="mb-3">
+    <label for="NameProduct" class="form-label">Name Product</label>
+    <input type="text" class="form-control" id="NameProduct" name="NameProduct" value="@Model.NameProduct" readonly>
+</div>
+<div class="mb-3">
+    <label for="NameCategory" class="form-label">Name Category</label>
+    <input type="text" class="form-control" id="NameCategory" name="NameCategory" value="@Model.NamaCategory" readonly>
+</div>
+<div class="mb-3">
+    <label for="NameVariant" class="form-label">NameVariant</label>
+    <textarea class="form-control" id="NameVariant" name="NameVariant" rows="3">@Model.NameVariant</textarea>
+</div>
+<div class="mb-3">
+    <label for="Price" class="form-label">Price</label>
+    <textarea class="form-control" id="Price" name="Price" rows="3">@Model.Price</textarea>
+</div>
+<div class="mb-3">
+    <label for="Stock" class="form-label">Stock</label>
+    <textarea class="form-control" id="Stock" name="Stock" rows="3">@Model.Stock</textarea>
+</div>
+<div class="mb-3">
+    <label for="CreateBy" class="form-label">Create By</label>
+    <input class="form-control" id="CreateBy" value="@Model.CreateBy" readonly>
+</div>
+<div class="mb-3">
+    <label for="CreateDate" class="form-label">Create Date</label>
+    <input class="form-control" id="CreateDate" value="@Model.CreateDate" readonly>
+</div>
+<div class="mb-3">
+    <label for="UpdateBy" class="form-label">Update By</label>
+    <input class="form-control" id="UpdateBy" value="@Model.UpdateBy" readonly>
+</div>
+<div class="mb-3">
+    <label for="UpdateDate" class="form-label">Update Date</label>
+    <input class="form-control" id="UpdateDate" value="@Model.UpdateDate" readonly>
+</div>
+
+<a asp-action="Index" asp-controller="Product" class="btn btn-light">Cancel</a>
+

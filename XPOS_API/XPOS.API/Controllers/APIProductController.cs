@@ -37,6 +37,9 @@ namespace XPOS.API.Controllers
                                Stock = p.Stock,
                                Image = p.Image,
 
+                               NameVariant = v.NameVariant,
+                               NamaCategory=c.NamaCategory,
+                               
                                IdVariant = p.IdVariant,                                                                                
                                IsDelete = p.IsDelete
 
@@ -61,6 +64,9 @@ namespace XPOS.API.Controllers
                                Price = p.Price,
                                Stock = p.Stock,
                                Image = p.Image,
+
+                               NameVariant = v.NameVariant,
+                               NamaCategory = c.NamaCategory,
 
                                IdVariant = p.IdVariant,
                                IsDelete = p.IsDelete,
