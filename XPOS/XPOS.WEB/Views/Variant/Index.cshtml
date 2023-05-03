@@ -4,7 +4,12 @@
 
 <div class="card">
     <div class="card-header">
-        <a class="btn btn-primary" asp-controller="Variant" asp-action="Create">Create</a>
+        @*<a class="btn btn-primary" asp-controller="Variant" asp-action="Create">Create</a>*@
+
+        <button type="button" class="btn btn-default" id="btn_create">
+            Create Variant
+        </button>
+
     </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -27,9 +32,14 @@
                             <td>@item.NameVariant</td>
                             <td>@item.Description</td>
                             <td>
-                                <a class="btn btn-success" asp-controller="Variant" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                @*<a class="btn btn-success" asp-controller="Variant" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                                 <a class="btn btn-warning" asp-controller="Variant" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
-                                <a class="btn btn-danger" asp-controller="Variant" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                <a class="btn btn-danger" asp-controller="Variant" asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+
+                                @*//untuk pop up*@
+                            <button class="btn btn-success btn_Edit" dataid="@item.Id">Edit</button>
+                            <button class="btn btn-warning btn_Detail" dataid="@item.Id">Detail</button>
+                            <button class="btn btn-danger btn_Delete" dataid="@item.Id">Delete</button>
                             </td>
                         </tr>
                     }
@@ -47,3 +57,56 @@
             </ul>
         </div>
     </div>
+
+@*Jcquery*@
+<script>
+    $("#btn_create").click(function () {
+
+        $("#header-modal-default").empty()
+        $("#header-modal-default").text("Create Variant")
+
+        $("#body-modal-default").empty()
+        $("#body-modal-default").load("/Variant/Create")
+        $("#modal-default").modal("show")
+
+    })
+
+    $(".btn_Edit").click(function () {
+        var Id = $(this).attr("dataid")
+
+        $("#header-modal-default").empty()
+        $("#header-modal-default").text("Edit Variant")
+
+        $("#body-modal-default").empty()
+        $("#body-modal-default").load("/Variant/Edit?Id=" + Id)
+        $("#modal-default").modal("show")
+    })
+
+    $(".btn_Detail").click(function () {
+
+        var Id = $(this).attr("dataid")
+
+        $("#header-modal-default").empty()
+        $("#header-modal-default").text("Detail Variant")
+
+        $("#body-modal-default").empty()
+        $("#body-modal-default").load("/Variant/Detail?Id=" + Id)
+        $("#modal-default").modal("show")
+
+    })
+
+    $(".btn_Delete").click(function () {
+
+        var Id = $(this).attr("dataid")
+
+        $("#header-modal-default").empty()
+        $("#header-modal-default").text("Delete Variant")
+
+        $("#body-modal-default").empty()
+        $("#body-modal-default").load("/Variant/Delete?Id=" + Id)
+        $("#modal-default").modal("show")
+
+    })
+
+
+</script>

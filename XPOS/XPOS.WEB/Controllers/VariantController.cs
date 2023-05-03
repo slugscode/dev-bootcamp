@@ -27,32 +27,43 @@ namespace XPOS.WEB.Controllers
         public async Task<IActionResult> Create()
         {
             VMVariant data = new VMVariant();
+
             List<TblCategory> listCategory = await category_service.AllCategory();
             ViewBag.ListCategory = listCategory;
-            return View(data);
+
+            return PartialView(data);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(VMVariant data)
         {
             data.CreateBy = IdUser;
-            VMRespons respons = await variant_service.PostVariant(data);
 
-            if (respons.Success)
+            VMRespons respon = await variant_service.PostVariant(data);
+
+            if (respon.Success)
             {
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+
+                return Json(new {dataRespon = respon });
+
             }
+
             List<TblCategory> listCategory = await category_service.AllCategory();
             ViewBag.ListCategory = listCategory;
-            return View(data);
+
+            //return View(data);
+            return Json(new { dataRespon = respon });
         }
 
         public async Task<IActionResult> Edit(int Id)
         {
             VMVariant dataVariant = await variant_service.GetById(Id);
+            
             List<TblCategory> listCategory = await category_service.AllCategory();
             ViewBag.ListCategory = listCategory;
-            return View(dataVariant);
+
+            return PartialView(dataVariant);
         }
 
         [HttpPost]
@@ -61,27 +72,33 @@ namespace XPOS.WEB.Controllers
         {
             data.UpdateBy = IdUser;
 
-            VMRespons respons = await variant_service.PutVariant(data);
-            if (respons.Success)
+            VMRespons respon = await variant_service.PutVariant(data);
+            
+            if (respon.Success)
             {
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return Json(new { dataRespons = respon });
+
             }
 
             List<TblCategory> listCategory = await category_service.AllCategory();
             ViewBag.ListCategory = listCategory;
-            return View(data);
+
+            //return View(data);
+
+            return Json(new { dataRespons = respon });
         }
 
         public async Task<IActionResult> Detail(int Id)
         {
             VMVariant dataVariant = await variant_service.GetById(Id);
-            return View(dataVariant);
+            return PartialView(dataVariant);
         }
 
         public async Task<IActionResult> Delete(int Id)
         {
             VMVariant data = await variant_service.GetById(Id);
-            return View(data);
+            return PartialView(data);
         }
 
         public async Task<IActionResult> SureDelete(int Id)
@@ -90,9 +107,11 @@ namespace XPOS.WEB.Controllers
 
             if (respons.Success)
             {
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return Json(new { dataRespons = respons });
             }
-            return RedirectToAction("Delete",Id);
+            //return RedirectToAction("Delete",Id);
+            return Json(new { dataRespons = respons });
 
         }
 

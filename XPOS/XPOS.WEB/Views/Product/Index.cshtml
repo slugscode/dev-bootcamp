@@ -4,8 +4,14 @@
 
 <div class="card">
     <div class="card-header">
-        <a class="btn btn-primary" asp-controller="Product" asp-action="Create">Create</a>
+        
+       @* <a class="btn btn-primary" asp-controller="Product" asp-action="Create">Create</a>*@
+        @*//tambahan create*@
+        <button type="button" class="btn btn-default" id="btn_create">
+            Create Product
+        </button>
     </div>
+
     <!-- /.card-header -->
     <div class="card-body">
         <table class="table">
@@ -36,9 +42,14 @@
                         <td>@item.Price</td>
                         <td>@item.Stock</td>                      
                         <td>
-                            <a class="btn btn-success" asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            @*<a class="btn btn-success" asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                             <a class="btn btn-warning" asp-controller="Product" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
-                            <a class="btn btn-danger" asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a class="btn btn-danger" asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+
+                          @*  //ini untuk tambahan pop up*@
+                            <button class="btn btn-success btn_Edit" dataid="@item.Id">Edit</button>
+                            <button class="btn btn-warning btn_Detail" dataid="@item.Id">Detail</button>
+                            <button class="btn btn-danger btn_Delete" dataid="@item.Id">Delete</button>
                         </td>
                     </tr>
                 }
@@ -56,3 +67,57 @@
         </ul>
     </div>
 </div>
+
+
+@*Jcquery*@
+<script>
+    $("#btn_create").click(function () {
+
+        $("#header-modal-default").empty()
+        $("#header-modal-default").text("Create Product")
+
+        $("#body-modal-default").empty()
+        $("#body-modal-default").load("/Product/Create")
+        $("#modal-default").modal("show")
+
+    })
+
+    $(".btn_Edit").click(function () {
+        var Id = $(this).attr("dataid")
+
+        $("#header-modal-default").empty()
+        $("#header-modal-default").text("Edit Product")
+
+        $("#body-modal-default").empty()
+        $("#body-modal-default").load("/Product/Edit?Id=" + Id)
+        $("#modal-default").modal("show")
+    })
+
+    $(".btn_Detail").click(function () {
+
+        var Id = $(this).attr("dataid")
+
+        $("#header-modal-default").empty()
+        $("#header-modal-default").text("Detail Product")
+
+        $("#body-modal-default").empty()
+        $("#body-modal-default").load("/Product/Detail?Id=" + Id)
+        $("#modal-default").modal("show")
+
+    })
+
+    $(".btn_Delete").click(function () {
+
+        var Id = $(this).attr("dataid")
+
+        $("#header-modal-default").empty()
+        $("#header-modal-default").text("Delete Product")
+
+        $("#body-modal-default").empty()
+        $("#body-modal-default").load("/Product/Delete?Id=" + Id)
+        $("#modal-default").modal("show")
+
+    })
+
+
+</script>

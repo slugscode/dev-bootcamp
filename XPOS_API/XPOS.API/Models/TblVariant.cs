@@ -8,7 +8,7 @@ namespace XPOS.API.Models
         public int Id { get; set; }
         public int IdCategory { get; set; }
         public string NameVariant { get; set; } = null!;
-        public string? Description { get; set; }
+        public string Description { get; set; } = null!;
         public bool? IsDelete { get; set; }
         public int CreateBy { get; set; }
         public DateTime CreateDate { get; set; }

@@ -1,11 +1,54 @@
 ﻿@using XPOS_ViewModels;
 @model VMProduct
 
-<h1> Are you sure want delete @Model.NameProduct</h1>
+<h5> Are you sure want delete @Model.NameProduct</h5>
 
-<form asp-action="SureDelete">
+<form asp-action="SureDelete" id="form-delete">
     <input type="hidden" value="@Model.Id" name="Id" id="Id" />
+
 
     <a asp-action="Index" asp-controller="Product" class="btn btn-light">Cancel</a>
     <button class=" btn btn-danger">Sure</button>
 </form>
+
+<script>
+    $("#form-delete").validate({
+
+        submitHandler: function (form) {
+
+            debugger
+
+            var Id = $("#Id").val();
+
+            //fungsi ajax
+
+            $.ajax({
+                url: "/Product/SureDelete",
+                data: { Id: Id },
+                dataType: "json",
+                success: function (respon) {
+
+                    debugger
+
+                    if (respon.dataRespon.success) {
+                        $("#modal-default").modal("hide")
+
+                        toastr.success(respon.dataRespon.message)
+
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+
+                    }
+                    else {
+                        toastr.error(respon.dataRespon.message)
+                    }
+                }
+
+            })
+
+        }
+
+    })
+</script>
+

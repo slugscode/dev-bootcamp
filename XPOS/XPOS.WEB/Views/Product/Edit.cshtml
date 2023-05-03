@@ -1,15 +1,131 @@
 ﻿@using XPOS_ViewModels;
 @model VMProduct
 
-<form asp-action="Edit" method="post">
- 
+<form asp-action="Edit" method="post" enctype="multipart/form-data" id="form-edit">
+
+    <a asp-action="Index" asp-controller="Product" class="btn btn-light">Cancel</a>
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <div class="Edit">
+        <label for="IdCategory" class="form-label">Category</label>
+        @Html.DropDownListFor(a => a.IdCategory,
+        new SelectList(ViewBag.ListCategory,"Id","NamaCategory"),
+        new{@class="form-control"})
+    </div>
+
+    <div class="Edit">
+        <label for="IdVariant" class="form-label">Variant</label>
+        @Html.DropDownListFor(a => a.IdVariant,
+        new SelectList(ViewBag.ListVariant,"Id","NameVariant"),
+        new{@class="form-control"})
+    </div>
 
     <div class="Edit">
         <label for="NameProduct" class="form-label">Name Product</label>
-        <textarea class="form-control" id="Name Product" rows="3" name="Name Product" @Model.NameProduct
-            </textarea>
+        <input type="text" class="form-control" id="NameProduct" name="NameProduct" value="@Model.NameProduct">
     </div>
 
-    <a asp-action="Index" asp-controller="Variant" class="btn btn-light">Cancel</a>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form> 
+    <div class="Edit">
+        <label for="Stock" class="form-label">Stock</label>
+        <input type="text" class="form-control" id="Stock" name="Stock" value="@Model.Stock">
+    </div>
+
+    <div class="Edit">
+        <label for="Price" class="form-label">Price</label>
+        <input type="text" class="form-control" id="Price" name="Price" value="@Model.Price">
+    </div>
+
+    <div class="Edit">
+        <label for="Image" class="form-label">Upload New Image</label>
+        <input type="file" class="form-control" id="ImageFile" value="@Model.Image" name="ImageFile">
+    </div>
+
+
+
+</form>
+
+<script>
+    $("#form-edit").validate({
+        errorClass: "is-invalid text-danger",
+        rules: {
+            NameProduct: {
+                required: true,
+                minlength: 2
+            },
+
+            IdCategory: "required",
+
+            IdVariant: "required",
+
+            Price: {
+                required: true,
+                number: true
+            },
+
+            Stock: {
+                required: true,
+                number: true
+
+            },
+            ImageFile: {
+                extension: "jpeg|jpg|png"
+            }
+        },
+
+        messages: {
+            NameProduct: {
+                required: "Please enter name product",
+                minlength: "Name product must consist at least 2 character"
+            },
+
+            IdCategory: "Please select category",
+            IdVariant: "Please select variant",
+
+            Price: {
+                required: "Please enter price",
+                number: "Please number only",
+            },
+
+            Stock: {
+                required: "Please enter stock",
+                number: "Please number only",
+            },
+
+            ImageFile: {
+                extension: "Please upload new image jpeg/jpg/png"
+            },
+
+            submitHandler: function (form) {
+
+                var dataForm = $(form).serialize();
+                //fungsi ajax
+
+                $.ajax({
+                    url: "/Product/Edit",
+                    method: "post",
+                    data: dataForm,
+                    dataType: "json",
+                    success: function (respon) {
+
+                        debugger
+
+                        if (respon.dataRespon.success) {
+                            $("#modal-default").modal("hide")
+
+                            toastr.success(respon.dataRespon.message)
+
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+
+                        }
+                        else {
+                            toastr.error(respon.dataRespon.message)
+                        }
+                    }
+
+                })
+            }
+
+        })
+</script>

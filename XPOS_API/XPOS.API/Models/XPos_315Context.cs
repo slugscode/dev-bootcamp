@@ -25,7 +25,7 @@ namespace XPOS.API.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=ETGNB-L460-09;Initial Catalog=XPos_315;user id=sa;Password=xsis123");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-N84EFSB;Initial Catalog=XPos_315;user id=sa;Password=xsis123");
             }
         }
 
@@ -34,8 +34,6 @@ namespace XPOS.API.Models
             modelBuilder.Entity<TblCategory>(entity =>
             {
                 entity.ToTable("TblCategory");
-
-                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
@@ -71,12 +69,10 @@ namespace XPOS.API.Models
 
                 entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Description)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.Description).IsUnicode(false);
 
                 entity.Property(e => e.NameVariant)
-                    .HasMaxLength(50)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");

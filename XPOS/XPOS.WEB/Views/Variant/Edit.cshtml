@@ -1,16 +1,17 @@
 ﻿@using XPOS_ViewModels;
 @model VMVariant
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" method="post" id="form-edit">
+
     <div class="Edit">
         <label for="IdCategory" class="form-label">Category</label>
         @Html.DropDownListFor(a => a.IdCategory,
-                              new SelectList(ViewBag.ListCategory,"Id","NamaCategory"),
-                              new{@class="form-control"})
+        new SelectList(ViewBag.ListCategory,"Id","NamaCategory"),
+        new{@class="form-control"})
     </div>
     <div class="Edit">
         <label for="NameVariant" class="form-label">Name Variant</label>
-        <input type="text" class="form-control" id="NameVariant" name="NameVariant" value="@Model.NameVariant">
+        <input type="text" class="form-control" id="NameVariant" name="NameVariant" value="@Model.NameVariant" minlength="2">
     </div>
 
     <div class="">
@@ -21,4 +22,67 @@
 
     <a asp-action="Index" asp-controller="Variant" class="btn btn-light">Cancel</a>
     <button type="submit" class="btn btn-primary">Submit</button>
-</form>  
+
+</form>
+
+<script>
+    $("#form-edit").validate({
+        errorClass: "is-invalid text-danger",
+        rules: {
+            NameVariant: {
+                required: true,
+                minlength: 2
+            },
+
+            IdCategory: "required",
+
+            Description: "required"
+        },
+
+        messages: {
+            NameVariant: {
+                required: "Please enter name variant",
+                minlength: "Name variant must consist at least 2 character"
+            },
+
+            IdCategory: "Please select category",
+
+            Description: "Please enter description"
+
+        },
+
+        submitHandler: function (form) {
+
+            var dataForm = $(form).serialize();
+            //fungsi ajax
+
+            $.ajax({
+                url: "/Variant/Edit",
+                method: "post",
+                data: dataForm,
+                dataType: "json",
+                success: function (respon) {
+
+                    debugger
+
+                    if (respon.dataRespon.success) {
+                        $("#modal-default").modal("hide")
+
+                        toastr.success(respon.dataRespon.message)
+
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+
+                    }
+                    else {
+                        toastr.error(respon.dataRespon.message)
+                    }
+                }
+
+            })
+
+        }
+
+    })
+</script>

@@ -33,9 +33,11 @@ namespace XPOS.WEB.Controllers
 
             if (respons.Success)
             {
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return Json(new { dataRespon = respons });
             }
-            return View(data);
+            //return View(data);
+            return Json(new { dataRespon = respons });
         }
         public async Task<IActionResult> Edit(int Id)
         {
@@ -50,9 +52,11 @@ namespace XPOS.WEB.Controllers
 
             if (respons.Success)
             {
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return Json(new { dataRespon = respons });
             }
-            return View(data);
+            //return View(data);
+            return Json(new { dataRespon = respons });
            
         }
         public async Task<IActionResult> Detail(int Id)
@@ -71,9 +75,12 @@ namespace XPOS.WEB.Controllers
 
             if (respon.Success)
             {
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return Json(new {dataRespon = respon });
             }
-            return RedirectToAction("Delete",Id);
+
+            //return RedirectToAction("Delete",Id);
+            return Json(new { dataRespon = respon });
 
         }
 

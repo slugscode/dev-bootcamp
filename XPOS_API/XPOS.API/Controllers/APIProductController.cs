@@ -38,7 +38,7 @@ namespace XPOS.API.Controllers
                                Image = p.Image,
 
                                NameVariant = v.NameVariant,
-                               NamaCategory=c.NamaCategory,
+                               NamaCategory = c.NamaCategory,
                                
                                IdVariant = p.IdVariant,                                                                                
                                IsDelete = p.IsDelete
@@ -51,6 +51,7 @@ namespace XPOS.API.Controllers
         public VMProduct GetById(int Id)
         {
             VMProduct dataProduct = new VMProduct();
+
             dataProduct = (from p in db.TblProducts
                            join v in db.TblVariants
                            on p.IdVariant equals v.Id
@@ -67,6 +68,8 @@ namespace XPOS.API.Controllers
 
                                NameVariant = v.NameVariant,
                                NamaCategory = c.NamaCategory,
+
+                               IdCategory=v.IdCategory,
 
                                IdVariant = p.IdVariant,
                                IsDelete = p.IsDelete,
@@ -114,6 +117,12 @@ namespace XPOS.API.Controllers
                 dataOld.NameProduct = data.NameProduct;
                 dataOld.Price = data.Price;
                 dataOld.Stock = data.Stock;
+
+                //tambahan image 
+                if (data.Image != null)
+                {
+                    data.Image = data.Image;
+                }
 
                 dataOld.UpdateDate = DateTime.Now;
                 dataOld.UpdateBy = data.UpdateBy;

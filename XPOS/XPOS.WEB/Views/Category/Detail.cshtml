@@ -7,7 +7,7 @@
     </div>
     <div class="mb-3">
         <label for="Description" class="form-label">Description</label>
-        <textarea class="form-control" id="Description" rows="3">@Model.Description"</textarea>
+        <textarea class="form-control" id="Description" rows="3">@Model.Description</textarea>
     </div>
     <div class="mb-3">
         <label for="CreateBy" class="form-label">Create By</label>
@@ -25,4 +25,6 @@
         <label for="UpdateDate" class="form-label">Update Date</label>
         <input class="form-control" id="UpdateDate" value="@Model.UpdateDate" readonly>
     </div>
+
+<a asp-action="Index" asp-controller="Category" class="btn btn-light">Cancel</a>
 
