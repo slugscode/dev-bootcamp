@@ -8,7 +8,7 @@ namespace XPOS.API.Controllers
     [ApiController]
     public class APIVariantController : ControllerBase
     {
-        private readonly XPos_315Context db; 
+        private readonly XPos_315Context db;
         private VMRespons respon = new VMRespons(); //VMRespons adalah model
 
         public APIVariantController(XPos_315Context _db)//Constructor
@@ -42,15 +42,15 @@ namespace XPOS.API.Controllers
             return dataVariant;//jangan lupa untuk return 
         }
 
-     
+
         [HttpGet("GetbyId /{Id}")]//untuk memunculkan atau mendapatkan satu objek sehingga digunakan TblVariant
         public VMVariant GetById(int Id)
         {
             VMVariant dataVariant = new VMVariant();
             dataVariant = (from v in db.TblVariants
-                           join c in db.TblCategories 
+                           join c in db.TblCategories
                            on v.IdCategory equals c.Id
-                           where v.Id == Id && v.IsDelete==false
+                           where v.Id == Id && v.IsDelete == false
                            select new VMVariant
                            {
                                Id = v.Id,
@@ -70,6 +70,24 @@ namespace XPOS.API.Controllers
 
             return dataVariant;
         }
+        [HttpGet("GetVariantCategory/{idcategory}")]
+
+        public List<VMVariant> GetDataByCategoryId(int idcategory)
+
+        {
+            List<VMVariant> dataList = (from v in db.TblVariants
+                                        where v.IdCategory == idcategory
+                                        && v.IsDelete == false
+                                        select new VMVariant
+                                        {
+                                            Id = v.Id,
+                                            NameVariant = v.NameVariant
+                                        }).ToList();
+
+
+            return dataList;
+
+        }
 
         [HttpPost("PostVariant")]
         public VMRespons PostVariant(TblVariant data)
@@ -83,10 +101,10 @@ namespace XPOS.API.Controllers
                 db.SaveChanges();
                 respon.Message = "Data Success Saved";
             }
-            catch(Exception e)//fungsi untuk menerima data kalau datanya gagal
+            catch (Exception e)//fungsi untuk menerima data kalau datanya gagal
             {
                 respon.Success = false;
-                respon.Message ="Failed saved: "  + e.InnerException;
+                respon.Message = "Failed saved: " + e.InnerException;
             }
             return respon;
         }
@@ -109,7 +127,7 @@ namespace XPOS.API.Controllers
                     db.SaveChanges();
                     respon.Message = "data success updated";
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     respon.Success = false;
                     respon.Message = "Update failes: " + e.Message;
@@ -137,11 +155,11 @@ namespace XPOS.API.Controllers
                     db.SaveChanges();
                     respon.Message = "Data Success deleted";
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     respon.Success = false;
-                    respon.Message="Delete failed: " + e.Message;
-                }   
+                    respon.Message = "Delete failed: " + e.Message;
+                }
             }
             else
             {
@@ -154,3 +172,4 @@ namespace XPOS.API.Controllers
     }
 
 }
+     

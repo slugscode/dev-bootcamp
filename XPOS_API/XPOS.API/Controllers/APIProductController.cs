@@ -62,23 +62,15 @@ namespace XPOS.API.Controllers
                            {
                                Id = p.Id,
                                NameProduct = p.NameProduct,
+
                                Price = p.Price,
                                Stock = p.Stock,
                                Image = p.Image,
 
                                NameVariant = v.NameVariant,
-                               NamaCategory = c.NamaCategory,
 
-                               IdCategory=v.IdCategory,
-
-                               IdVariant = p.IdVariant,
-                               IsDelete = p.IsDelete,
-
-                               CreateBy = p.CreateBy,
-                               CreateDate = p.CreateDate,
-
-                               UpdateBy = p.UpdateBy,
-                               UpdateDate = p.UpdateDate
+                               IdCategory= c.Id,
+                               IdVariant = v.Id,                        
 
 
                            }).FirstOrDefault();
@@ -115,6 +107,7 @@ namespace XPOS.API.Controllers
             if (dataOld != null)
             {
                 dataOld.NameProduct = data.NameProduct;
+
                 dataOld.Price = data.Price;
                 dataOld.Stock = data.Stock;
 
@@ -125,12 +118,13 @@ namespace XPOS.API.Controllers
                 }
 
                 dataOld.UpdateDate = DateTime.Now;
-                dataOld.UpdateBy = data.UpdateBy;
+                dataOld.UpdateBy =1;
 
                 try
                 {
                     db.Update(dataOld);
                     db.SaveChanges();
+
                     respon.Message = "Data Success Updated";
                 }
                 catch(Exception e)
@@ -147,6 +141,7 @@ namespace XPOS.API.Controllers
             }
             return respon;
         }
+
         [HttpDelete("DeleteProduct/{Id}")]
         public VMRespons DeleteProduct(int Id)
         {

@@ -1,22 +1,60 @@
 ﻿@using XPOS.API.Models;
-@model List<TblCategory>
+@*@model List<TblCategory>*@
+@using XPOS_ViewModels;
+@model PaginatedList<TblCategory>
 
 <div class="card">
     <div class="card-header">
-@*        <a class="btn btn-primary" asp-controller="Category" asp-action="Create">Create</a>*@
 
         <button type="button" class="btn btn-default" id="btn_create">
             Create Category
         </button>
 
+        <div class="card-tools">
+
+            <form asp-action="Index" asp-route-pageSize="@ViewBag.pageSize">
+
+                <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="searchString" 
+                        value="@ViewBag.CurrentFilter" 
+                        class="form-control float-right" 
+                        placeholder="Search">        
+            
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            </form>
+        </div>
     </div>
+
+  
+@*<a class="btn btn-primary" asp-controller="Category" asp-action="Create">Create</a>*@
+
+
     <!-- /.card-header -->
     <div class="card-body">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Name Category</th>
+                    <th scope="col">
+                        <a asp-action="Index" 
+                        asp-route-sortOrder="@ViewBag.IdSort"
+                           asp-route-currentFilter="@ViewBag.CurrentFilter">
+                            Id
+                        </a>
+                    </th>
+
+                    <th scope="col">                        
+                        <a asp-action="Index" 
+                        asp-route-sortOrder="@ViewBag.NameSort"
+                           asp-route-currentFilter="@ViewBag.CurrentFilter">
+                            NamaCategory
+                        </a>                        
+                    </th>
+
                     <th scope="col">Description</th>
                     <th scope="col">Action</th>
                 </tr>
@@ -45,19 +83,65 @@
 
     </div>
     <!-- /.card-body -->
-    <div class="modal-footer clearfix">
-        <ul class="pagination pagination-sm m-0 float-right">
-            <li class="page-item"><a class="page-link" href="#">«</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">»</a></li>
-        </ul>
-    </div>
+    <div class="card-footer clearfix">
+
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
+
+        <div class="row">
+
+            <div class="col-2">
+                <form asp-action="Index" id="form-pageSize" asp-route-currentFilter="@ViewBag.CurrentFilter">
+                    <select id="pageSize" class="form-control" name="pageSize">
+                        <option value="3">3</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                    </select>
+
+                </form>
+
+            </div>
+
+
+            <div class="col-10>
+
+                <div class="float-right">
+
+                    Page @Model.PageIndex of Page @Model.TotalPages
+
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewBag.CurrentSort"
+                       asp-route-pageNumber="@(Model.PageIndex - 1)"
+                       asp-route-currentFilter="@ViewBag.CurrentFilter"
+                       asp-route-pageSize="@ViewBag.pageSize"
+                       class="btn btn-primary @prevDisabled">
+                        Previous
+                    </a>
+
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewBag.CurrentSort"
+                       asp-route-pageNumber="@(Model.PageIndex + 1)"
+                       asp-route-currentFilter="@ViewBag.CurrentFilter"
+                       asp-route-pageSize="@ViewBag.pageSize"
+                       class="btn btn-primary @nextDisabled">
+                        Next
+                    </a>
+
+                </div>
+            </div>
+        </div>
 </div>
 
 @*Jcquery*@
 <script>
+        $("#pageSize").val(@ViewBag.pageSize)
+
+        $("#pageSize").change(function () {
+            $("#form-pageSize").submit();
+        })
+
     $("#btn_create").click(function(){
 
         $("#header-modal-default").empty()

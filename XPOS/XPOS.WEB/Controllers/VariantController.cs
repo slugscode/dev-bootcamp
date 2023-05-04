@@ -18,10 +18,51 @@ namespace XPOS.WEB.Controllers
             this.category_service = _categoryservice;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(VMSearchPage pg)
         {
+            ViewBag.NameSort = String.IsNullOrEmpty(pg.sortOrder) ? "name_desc" : "";
+            ViewBag.IdSort =pg.sortOrder == "Id" ? "Id_desc" :"Id";
+
+            ViewBag.CurrentSort = pg.sortOrder;
+            ViewBag.pageSize = pg.pageSize;
+
+            if (pg.searchString != null)
+            {
+                pg.pageNumber = 1;
+            }
+            else
+            {
+                pg.searchString = pg.currentFilter;
+            }
+
+            ViewBag.CurrentFilter = pg.searchString;
+            
             List<VMVariant> dataVariant = await variant_service.AllVariant();
-            return View(dataVariant);
+
+            if (!String.IsNullOrEmpty(pg.searchString))
+            {
+                dataVariant = dataVariant.Where(a => a.NameVariant.ToLower().Contains(pg.searchString.ToLower())).ToList();
+            }
+
+
+            switch (pg.sortOrder)
+            {
+                case "Id":
+                    dataVariant = dataVariant.OrderBy(a => a.Id).ToList();
+                    break;
+                case "Id_desc":
+                    dataVariant = dataVariant.OrderByDescending(a => a.Id).ToList();
+                    break;
+                case "name_desc":
+                    dataVariant = dataVariant.OrderByDescending(a => a.NameVariant).ToList();
+                    break;
+                default:
+                    dataVariant = dataVariant.OrderBy(a => a.NameVariant).ToList();
+                    break;
+            }
+
+            //return View(dataVariant);
+            return View(await PaginatedList<VMVariant>.CreateAsync(dataVariant, pg.pageNumber ?? 1, pg.pageSize ?? 3));
         }
 
         public async Task<IActionResult> Create()

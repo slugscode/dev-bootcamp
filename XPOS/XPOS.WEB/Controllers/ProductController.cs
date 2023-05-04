@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
+using System.Drawing.Printing;
 using XPOS.API.Models;
 using XPOS.WEB.Services;
 using XPOS_ViewModels;
@@ -30,10 +31,60 @@ namespace XPOS.WEB.Controllers
         }
         #region CRUD
         
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(VMSearchPage pg)
         {
             List<VMProduct> dataProduct = await product_service.AllProduct();
-            return View(dataProduct);
+
+            ViewBag.NameSort = String.IsNullOrEmpty(pg.sortOrder) ? "name_desc" : "";
+            ViewBag.IdSort = pg.sortOrder == "Id" ? "Id_desc" : "Id";
+
+            ViewBag.PriceSort = pg.sortOrder == "Price" ? "Price_desc" : "Price";
+
+            ViewBag.CurrentSort = pg.sortOrder;
+            ViewBag.pageSize = pg.pageSize;
+           
+
+            if (pg.searchString != null)
+            {
+                pg.pageNumber = 1;
+            }
+            else
+            {
+                pg.searchString = pg.currentFilter;
+            }
+
+            ViewBag.CurrentFilter = pg.searchString;
+
+            if (!String.IsNullOrEmpty(pg.searchString))
+            {
+                dataProduct = dataProduct.Where(a => a.NameProduct.ToLower().Contains(pg.searchString.ToLower())).ToList();
+            }
+
+            switch (pg.sortOrder)
+            {
+              
+                case "Price":
+                    dataProduct = dataProduct.OrderBy(a => a.Price).ToList();
+                    break;
+                case "Price_desc":
+                    dataProduct = dataProduct.OrderByDescending(a => a.Price).ToList();
+                    break;
+                case "Id":
+                    dataProduct = dataProduct.OrderBy(a => a.Id).ToList();
+                    break;
+                case "Id_desc":
+                    dataProduct = dataProduct.OrderByDescending(a => a.Id).ToList();
+                    break;
+                case "name_desc":
+                    dataProduct = dataProduct.OrderByDescending(a => a.NameProduct).ToList();
+                    break;
+                default:
+                    dataProduct = dataProduct.OrderBy(a => a.NameProduct).ToList();
+                    break;
+            }
+
+            //int pageSize = 3;
+            return View(await PaginatedList<VMProduct>.CreateAsync(dataProduct, pg.pageNumber ?? 1, pg.pageSize ?? 3));
         }
 
         public async Task<IActionResult> Create()
@@ -166,7 +217,13 @@ namespace XPOS.WEB.Controllers
             }
             return fileName;
         }
+        public async Task<JsonResult> GetVariantByCategory(int idcategory)
+        {
+            List<VMVariant> listVariant = await variant_service.GetVariantByCategory(idcategory);
 
+            return Json(listVariant);
+        }
+             
         #endregion
 
 

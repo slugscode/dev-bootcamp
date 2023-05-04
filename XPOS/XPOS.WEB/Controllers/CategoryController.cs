@@ -14,12 +14,50 @@ namespace XPOS.WEB.Controllers
         {
             this.category_service = _categoryservice;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(VMSearchPage pg)
         {
+            ViewBag.NameSort = String.IsNullOrEmpty(pg.sortOrder) ? "name_desc" : "";
+            ViewBag.IdSort = pg.sortOrder == "Id" ? "Id_desc" : "Id";
+
+            ViewBag.CurrentSort = pg.sortOrder;
+            ViewBag.pageSize = pg.pageSize;
+
+            if (pg.searchString != null)
+            {
+                pg.pageNumber = 1;
+            }
+            else
+            {
+                pg.searchString = pg.currentFilter;
+            }
+            ViewBag.CurrentFilter = pg.searchString;
+
             List<TblCategory> dataCategory = await category_service.AllCategory();
 
-            return View(dataCategory);
+            if (!String.IsNullOrEmpty(pg.searchString))
+            {
+                dataCategory = dataCategory.Where(a => a.NamaCategory.ToLower().Contains(pg.searchString.ToLower())).ToList();
+            }
+
+            switch (pg.sortOrder)
+            {
+                case "Id":
+                    dataCategory = dataCategory.OrderBy(a => a.Id).ToList();
+                    break;
+                case "Id_desc":
+                    dataCategory = dataCategory.OrderByDescending(a => a.Id).ToList();
+                    break;
+                case "name_desc":
+                    dataCategory = dataCategory.OrderByDescending(a => a.NamaCategory).ToList();
+                    break;
+                default:
+                    dataCategory = dataCategory.OrderBy(a => a.NamaCategory).ToList();
+                    break;
+            }
+
+            return View(await PaginatedList<TblCategory>.CreateAsync(dataCategory,pg.pageNumber?? 1,pg.pageSize ?? 3));
         }
+
         public IActionResult Create()
         {
             TblCategory category = new TblCategory();
@@ -83,6 +121,7 @@ namespace XPOS.WEB.Controllers
             return Json(new { dataRespon = respon });
 
         }
+
 
     }
 }

@@ -3,8 +3,8 @@
 
 <form asp-action="Edit" method="post" enctype="multipart/form-data" id="form-edit">
 
-    <a asp-action="Index" asp-controller="Product" class="btn btn-light">Cancel</a>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <input type="hidden" value="@Model.Id" name="Id" id="Id" />
+   
 
     <div class="Edit">
         <label for="IdCategory" class="form-label">Category</label>
@@ -40,6 +40,8 @@
         <input type="file" class="form-control" id="ImageFile" value="@Model.Image" name="ImageFile">
     </div>
 
+    <a asp-action="Index" asp-controller="Product" class="btn btn-light">Cancel</a>
+    <button type="submit" class="btn btn-primary">Submit</button>
 
 
 </form>
@@ -56,76 +58,97 @@
             IdCategory: "required",
 
             IdVariant: "required",
-
-            Price: {
-                required: true,
-                number: true
-            },
-
             Stock: {
-                required: true,
-                number: true
-
+                required:true,
+                number:true
+            },
+            Price:{
+                required:true,
+                number:true
             },
             ImageFile: {
-                extension: "jpeg|jpg|png"
-            }
+                
+                extension:"jpeg|jpg|png"
+                }
         },
 
         messages: {
-            NameProduct: {
+            NameVariant: {
                 required: "Please enter name product",
                 minlength: "Name product must consist at least 2 character"
             },
 
             IdCategory: "Please select category",
+
             IdVariant: "Please select variant",
-
-            Price: {
-                required: "Please enter price",
-                number: "Please number only",
-            },
-
             Stock: {
                 required: "Please enter stock",
-                number: "Please number only",
+                number: "number only"
             },
-
-            ImageFile: {
-                extension: "Please upload new image jpeg/jpg/png"
+            Price: {
+                required: "Please enter price",
+                number: "number only"
             },
-
-            submitHandler: function (form) {
-
-                var dataForm = $(form).serialize();
-                //fungsi ajax
-
-                $.ajax({
-                    url: "/Product/Edit",
-                    method: "post",
-                    data: dataForm,
-                    dataType: "json",
-                    success: function (respon) {
-
-                        debugger
-
-                        if (respon.dataRespon.success) {
-                            $("#modal-default").modal("hide")
-
-                            toastr.success(respon.dataRespon.message)
-
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 2000);
-
-                        }
-                        else {
-                            toastr.error(respon.dataRespon.message)
-                        }
-                    }
-
-                })
+            ImageFile:{
+                
+                extension: "jpeg/jpg/png only"
             }
 
-        })
+        },
+
+        submitHandler: function (form) {
+
+            var data = new FormData();
+
+
+            var dataForm = $(form).serializeArray();
+
+            $.each(dataForm,function(key,input){
+                data.append(input.name,input.value)
+            })
+
+            var file = $("#ImageFile").prop("files");
+
+            if(file.length>0)
+            {
+                data.append("ImageFile",file[0])
+
+            }
+
+
+
+            //fungsi ajax
+
+            $.ajax({
+                url: "/Product/Edit",
+                method: "post",
+                data: data,
+                dataType: "json",
+                contentType:false,
+                processData:false,
+
+                success: function (respon) {
+
+                    debugger
+
+                    if (respon.dataRespon.success) {
+                        $("#modal-default").modal("hide")
+
+                        toastr.success(respon.dataRespon.message)
+
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+
+                    }
+                    else {
+                        toastr.error(respon.dataRespon.message)
+                    }
+                }
+
+            })
+
+        }
+
+    })
 </script>

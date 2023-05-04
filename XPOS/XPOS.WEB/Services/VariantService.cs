@@ -39,6 +39,17 @@ namespace XPOS.WEB.Services
 
             return data;
         }
+    public async Task<List<VMVariant>> GetVariantByCategory(int idcategory)
+        {
+            List<VMVariant> listVariant = new List<VMVariant>();
+
+            string url = RouteAPI + $"api/APIVariant/GetVariantCategory/{idcategory}";
+            string apiRespons = await client.GetStringAsync(url);
+
+            listVariant = JsonConvert.DeserializeObject<List<VMVariant>>(apiRespons);
+
+            return listVariant;
+        }
         public async Task<VMRespons> PutVariant(VMVariant data)
         {
             string datajson = JsonConvert.SerializeObject(data);
