@@ -121,7 +121,5 @@ namespace XPOS.WEB.Controllers
             return Json(new { dataRespon = respon });
 
         }
-
-
     }
 }

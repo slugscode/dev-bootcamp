@@ -42,7 +42,10 @@ namespace XPOS.WEB.Controllers
 
             ViewBag.CurrentSort = pg.sortOrder;
             ViewBag.pageSize = pg.pageSize;
-           
+
+            ViewBag.FilterMinPrice = pg.MinPrice ?? 0;
+            ViewBag.FilterMaxPrice = pg.MaxPrice ?? 0;
+
 
             if (pg.searchString != null)
             {
@@ -58,6 +61,14 @@ namespace XPOS.WEB.Controllers
             if (!String.IsNullOrEmpty(pg.searchString))
             {
                 dataProduct = dataProduct.Where(a => a.NameProduct.ToLower().Contains(pg.searchString.ToLower())).ToList();
+            }
+
+            if (pg.MinPrice !=null || pg.MaxPrice !=null)
+            {
+                pg.MinPrice = pg.MinPrice == null ? decimal.MinValue : pg.MinPrice;
+                pg.MaxPrice = pg.MaxPrice == null ? decimal.MaxValue : pg.MaxPrice;
+
+                dataProduct = dataProduct.Where(a => a.Price >= pg.MinPrice && a.Price <= pg.MaxPrice).ToList();
             }
 
             switch (pg.sortOrder)
@@ -197,6 +208,11 @@ namespace XPOS.WEB.Controllers
         #endregion
 
         #region addons function
+
+        public async Task<IActionResult> Search()
+        {            
+            return PartialView();
+        }
 
         public string Upload(VMProduct data)
         {

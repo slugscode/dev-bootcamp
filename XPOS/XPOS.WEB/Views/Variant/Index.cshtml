@@ -148,59 +148,58 @@
 
 @*Jcquery*@
 <script>
-      $("#pageSize").val(@ViewBag.pageSize)
+
+        $("#pageSize").val(@ViewBag.pageSize)
 
         $("#pageSize").change(function () {
             $("#form-pageSize").submit();
         })
 
-    $("#btn_create").click(function () {
+        $("#btn_create").click(function () {
 
-        $("#header-modal-default").empty()
-        $("#header-modal-default").text("Create Variant")
+            $("#header-modal-default").empty()
+            $("#header-modal-default").text("Create Variant")
 
-        $("#body-modal-default").empty()
-        $("#body-modal-default").load("/Variant/Create")
-        $("#modal-default").modal("show")
+            $("#body-modal-default").empty()
+            $("#body-modal-default").load("/Variant/Create")
+            $("#modal-default").modal("show")
 
-    })
+        })
 
-    $(".btn_Edit").click(function () {
-        var Id = $(this).attr("dataid")
+        $(".btn_Edit").click(function () {
+            var Id = $(this).attr("dataid")
 
-        $("#header-modal-default").empty()
-        $("#header-modal-default").text("Edit Variant")
+            $("#header-modal-default").empty()
+            $("#header-modal-default").text("Edit Variant")
 
-        $("#body-modal-default").empty()
-        $("#body-modal-default").load("/Variant/Edit?Id=" + Id)
-        $("#modal-default").modal("show")
-    })
+            $("#body-modal-default").empty()
+            $("#body-modal-default").load("/Variant/Edit?Id=" + Id)
+            $("#modal-default").modal("show")
+        })
 
-    $(".btn_Detail").click(function () {
+        $(".btn_Detail").click(function () {
 
-        var Id = $(this).attr("dataid")
+            var Id = $(this).attr("dataid")
 
-        $("#header-modal-default").empty()
-        $("#header-modal-default").text("Detail Variant")
+            $("#header-modal-default").empty()
+            $("#header-modal-default").text("Detail Variant")
 
-        $("#body-modal-default").empty()
-        $("#body-modal-default").load("/Variant/Detail?Id=" + Id)
-        $("#modal-default").modal("show")
+            $("#body-modal-default").empty()
+            $("#body-modal-default").load("/Variant/Detail?Id=" + Id)
+            $("#modal-default").modal("show")
 
-    })
+        })
 
-    $(".btn_Delete").click(function () {
+        $(".btn_Delete").click(function () {
 
-        var Id = $(this).attr("dataid")
+            var Id = $(this).attr("dataid")
 
-        $("#header-modal-default").empty()
-        $("#header-modal-default").text("Delete Variant")
+            $("#header-modal-default").empty()
+            $("#header-modal-default").text("Delete Variant")
 
-        $("#body-modal-default").empty()
-        $("#body-modal-default").load("/Variant/Delete?Id=" + Id)
-        $("#modal-default").modal("show")
+            $("#body-modal-default").empty()
+            $("#body-modal-default").load("/Variant/Delete?Id=" + Id)
+            $("#modal-default").modal("show")
 
-    })
-
-
+        })
 </script>

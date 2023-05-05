@@ -1,0 +1,35 @@
+﻿@using XPOS_ViewModels;
+@*@model List<VMProduct>*@
+@model PaginatedList<VMProduct>
+
+<form asp-action="Index">
+
+    <div class="form-group">
+        <label for="searchString">Name Product</label>
+        <input type="text" class="form-control" name="searchString" value="@ViewBag.CurrentFilter"
+        id="searchString" placeholder="Search Name" >
+
+    </div>
+
+    <div class="row"
+        <div class="col-6"
+    <div class="form-group">
+        <label for="searchString">Min Price</label>
+        <input type="number" class="form-control" name="MinPrice" value="@ViewBag.FilterMinPrice" 
+        id="MinPrice" placeholder="Search Min Price" >
+
+    </div>
+
+    <div class="row"
+        <div class="col-6"
+    <div class="form-group">
+        <label for="searchString">Max Price</label>
+        <input type="number" class="form-control" name="MaxPrice" value="@ViewBag.FilterMaxPrice"
+        id="MaxPrice" placeholder="Search Max Price" >
+
+    </div>  
+
+    <a asp-action="Index" asp-controller="Product" class="btn btn-light">Cancel</a>
+    <button type="submit" class="btn btn-primary">Search</button>
+
+</form>
