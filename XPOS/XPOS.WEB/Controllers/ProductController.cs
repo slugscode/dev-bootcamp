@@ -209,7 +209,7 @@ namespace XPOS.WEB.Controllers
 
         #region addons function
 
-        public async Task<IActionResult> Search()
+        public async Task<IActionResult> Search(VMSearchPage pg)
         {            
             return PartialView();
         }
@@ -241,11 +241,5 @@ namespace XPOS.WEB.Controllers
         }
              
         #endregion
-
-
-
-
-
-
     }
 }

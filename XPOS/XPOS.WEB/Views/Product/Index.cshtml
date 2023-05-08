@@ -11,7 +11,6 @@
         Create Product
         </button>*@
 
-
         <button type="button" class="btn btn-default" id="btn_create">
             Create Product
         </button>
@@ -27,11 +26,12 @@
                            placeholder="Search">
 
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-default"></button>
-                            <i class="fas fa-search"></i>
-                         @*   <button type="button" class="btn btn-default" id="btn_Search">
-                                <i class="fas fa-plus"></i>
-                            </button>*@
+                        <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                        </button>
+                        <button type="button" class="btn btn-default" id="btn_search">
+                        <i class="fas fa-plus"></i>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -115,8 +115,8 @@
     <div class="row">
 
         <div class="col-2">
-            <form asp-action="Index" id="form-pageSize" 
-            asp-route-currentFilter="@ViewBag.CurrentFilter">
+            <form asp-action="Index" id="form-pageSize"
+                  asp-route-currentFilter="@ViewBag.CurrentFilter">
                 <select id="pageSize" class="form-control" name="pageSize">
                     <option value="3">3</option>
                     <option value="5">5</option>
@@ -160,7 +160,7 @@
 
 @*Jcquery*@
 <script>
-    
+
     $("#pageSize").val(@ViewBag.pageSize)
 
     $("#pageSize").change(function () {
@@ -169,24 +169,26 @@
 
     $("#btn_create").click(function () {
 
+        $("#header-modal-xl").empty()
+        $("#header-modal-xl").text("Create Product")
+
+        $("#body-modal-xl").empty()
+        $("#body-modal-xl").load("/Product/Create")
+        $("#modal-xl").modal("show")
+
+    })
+
+      $("#btn_search").click(function () {
+
         $("#header-modal-default").empty()
-        $("#header-modal-default").text("Create Product")
+        $("#header-modal-default").text("Search")
 
         $("#body-modal-default").empty()
-        $("#body-modal-default").load("/Product/Create")
+        $("#body-modal-default").load("/Product/Search")
         $("#modal-default").modal("show")
 
     })
 
-    //$("#btn_Search").click(function () {
-
-    //    $("#header-modal-default").empty()
-    //    $("#header-modal-default").text("Search")
-
-    //    $("#body-modal-default").empty()
-    //    $("#body-modal-default").load("/Product/Search)
-    //    $("#modal-default").modal("show")
-    //})
 
     $(".btn_Edit").click(function () {
         var Id = $(this).attr("dataid")

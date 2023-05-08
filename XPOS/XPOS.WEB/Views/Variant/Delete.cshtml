@@ -1,15 +1,18 @@
 ﻿@using XPOS_ViewModels;
 @model VMVariant
 
+
 <h5> Are you sure want delete @Model.NameVariant</h5>
 
 <form asp-action="SureDelete" id="form-delete">
+
     <input type="hidden" value="@Model.Id" name="Id" id="Id" />
 
+
     <a asp-action="Index" asp-controller="Variant" class="btn btn-light">Cancel</a>
+
     <button class=" btn btn-danger">Sure</button>
 </form>
-
 
 <script>
     $("#form-delete").validate({
@@ -24,7 +27,7 @@
 
             $.ajax({
                 url: "/Variant/SureDelete",
-                data: { Id: Id },
+                data: {Id:Id},
                 dataType: "json",
                 success: function (respon) {
 

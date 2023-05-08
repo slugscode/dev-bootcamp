@@ -1,0 +1,96 @@
+﻿@using XPOS_ViewModels;
+@model VMOrderHeader
+
+<div class="card-body">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">NameProduct</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Price</th>
+                <th scope="col">Sub Total</th>
+            </tr>
+        </thead>
+@*        <tbody class="table-group-divider">
+            <tr>
+                <td>A</td>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+            </tr>
+
+        </tbody>*@
+
+        @foreach (var item in Model.ListDetail)
+        {
+            <tr>
+                <td>@item.NameProduct</td>
+                <td>@item.Qty</td>
+                <td>@item.Price</td>
+                <td>@item.SubTotal</td>
+            </tr>
+        }
+
+    </table>
+
+    <div class="row">
+        <!-- accepted payments column -->
+        <div class="col-6">
+            <p class="lead">Payment Methods:</p>
+            <img src="~/adminlte/dist/img/credit/visa.png" alt="Visa">
+            <img src="~/adminlte/dist/img/credit/mastercard.png" alt="Mastercard">
+            <img src="~/adminlte/dist/img/credit/american-express.png" alt="American Express">
+            <img src="~/adminlte/dist/img/credit/paypal2.png" alt="Paypal">
+
+
+        </div>
+        <!-- /.col -->
+        <div class="col-6">
+            <p class="lead">Amount Due @DateTime.Now.ToString("dd MMMM yyyy")</p>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th style="width:50%">Subtotal:</th>
+                            <td>@Model.TotalQty</td>
+                        </tr>
+                        <tr>
+                            <th>Total:</th>
+                            <td>Rp @Model.Amount</td>
+
+                        </tr>
+                        
+                          
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+</div>
+
+
+<button type="button" class="btn btn-success float-right" id="btn_submit">
+    <i class="far fa-credit-card"></i> Submit Payment
+</button>
+
+
+<script>
+    $("#btn_submit").click(function(){
+        $.ajax({
+
+            url:"/Order/SubmitPayment",
+            data:dataHeader,
+            method:"post",
+            datatype:"json",
+
+            success:function(respon){
+                toastr.success("test")
+
+            }
+        })
+    })
+</script>
+

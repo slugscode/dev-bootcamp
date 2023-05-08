@@ -2,35 +2,33 @@
 @model List<VMProduct>
 
 <div class="row">
-    <div class="col-lg-3 col-6">
-        <!-- small box -->
+    <div class="col">
+
         <div class="small-box bg-info">
             <div class="inner">
-                <h3>150</h3>
-                <p>Total Orders</p>
+                <h3 id="totalProduct">0</h3>
+                <p>Total Product</p>
             </div>
         </div>
     </div>
-    <!-- ./col -->
-    <div class="col-lg-3 col-6">
-        <!-- small box -->
+
+
+    <div class="col">
+
         <div class="small-box bg-success">
             <div class="inner">
-                <h3>53</h3>
-
+                <h3 id="estimate">0</h3>
                 <p>Estimated Price</p>
             </div>
 
         </div>
     </div>
-    <!-- ./col -->
-    <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-warning">
-            <div class="inner">
-                <h3>44</h3>
 
-                <p>Check Out</p>
+    <div class="col">
+        <div class="small-box bg-warning" id="btn_checkout">
+            <div class="inner">
+                <p>CheckOut</p>
+                <h3>0</h3>
             </div>
         </div>
     </div>
@@ -39,40 +37,211 @@
 
 
 <div class="row">
+
     @foreach (VMProduct item in Model)
     {
         <div class="col-md-3">
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
+
                     <div class="text-center">
                         <img src="~/images/@item.Image" class="profile-user-img img-fluid img-circle img-responsive">
                     </div>
-                    <h3 class="text-center">@item.NameProduct</h3>
-                    <p class="text-muted text-center">@item.NameVariant-@item.NameProduct</p>
+
+                    <h3 class="text-center" id="name_@item.Id">@item.NameProduct</h3>
+                    <p class="text-muted text-center">@item.NamaCategory-@item.NameVariant</p>
 
                     <ul class="list-group list-group-unbordered mb-3">
 
                         <li class="list-group-item">
-                            <b>Price</b> <a class="float-right">@item.Price</a>
+                            <b>Price</b> <a class="float-right" id="price_@item.Id">@item.Price</a>
                         </li>
+
                         <li class="list-group-item">
-                            <b>Stock</b> <a class="float-right">@item.Stock</a>
+                            <b>Stock</b> <a class="float-right" id="stock_@item.Id">@item.Stock</a>
+                            <span id="val_@item.Id" class="text-danger" style="display:none">Out of stock</span>
                         </li>
+
                     </ul>
                 </div>
+
+
                 <div class="modal-footer justify-content-between">
-                    <button type="submit" class="btn btn-danger btn_Sub" dataid="@item.Id">-</button>
-                    <p>0</p>
-                    <button type="submit" class="btn btn-danger btn_Plus" dataid="@item.Id">+</button>
+                    <button type="submit" class="btn btn-danger btn_sub" dataid="@item.Id">
+                        <i class="fas fa-minus"></i>
+                    </button>
+
+                    <div class="col-md-4 text center" id="">
+                        <span id="total_@item.Id">0</span>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-default btn_plus" dataid="@item.Id">
+                        <i class="fas fa-plus"></i>
+                    </button>
                 </div>
+
+
+
             </div>
         </div>
     }
+
 </div>
 
 
+
 <script>
-    $(."btn_Kurang").click(function () {
+
+    var obj = {}
+    var ListDetail = []
+    var dataHeader = {}
+
+    var totalProduct = parseInt($("#totalProduct").text())
+    var estimate = parseInt($("#estimate").text())
+    
+
+        $(".btn_plus").click(function () {
+
+            obj = {}
+
+            debugger
+
+            var Id = $(this).attr("dataid")
+
+            var price = parseInt($("#price_" + Id).text())
+            var total = parseInt($("#total_" + Id).text())
+            var stock = parseInt($("#stock_" + Id).text())
+            var name = $("#name_" + Id).text()
+
+
+            if (stock > 0) {
+                total++
+                totalProduct++
+                estimate = estimate + price
+
+                stock--
+                if (stock == 0) {
+                    $("#val_" + Id).show()
+                }
+
+                obj.IdProduct = Id
+                obj.Qty = total
+                obj.Price = price
+                obj.SubTotal = totalProduct * price
+                obj.NameProduct = name
+                addList(Id, obj)
+
+                //console.log(obj)
+
+            
+            }
+
+            $("#totalProduct").text(totalProduct)
+            $("#estimate").text(estimate)
+            $("#total_" + Id).text(total)
+            $("#stock_" + Id).text(stock)
+
+        })
+
+    $(".btn_sub").click(function () {
+
+        
+        var Id = $(this).attr("dataid")
+        debugger
+        var price = parseInt($("#price_" + Id).text())
+        var total = parseInt($("#total_" + Id).text())
+        var stock = parseInt($("#stock_" + Id).text())
+        var name = $("#name_" + Id).text()
+
+        if (stock > 0 && total >= 1) {
+            total--
+            totalProduct--
+            estimate = estimate - price
+
+            stock++
+
+            if (total == 0) {
+                $("#val_" + Id).hide()
+            }
+
+            obj.IdProduct = Id
+            obj.Qty = total
+            obj.Price = price
+            obj.SubTotal = totalProduct * price
+            obj.NameProduct = name
+            removeList(Id, obj)
+
+            //console.log(obj)
+
+           
+
+        }
+
+        $("#totalProduct").text(totalProduct)
+        $("#estimate").text(estimate)
+        $("#total_" + Id).text(total)
+        $("#stock_" + Id).text(stock)
 
     })
+
+
+
+    $("#btn_checkout").click(function () {
+
+        dataHeader ={
+            Amount : estimate,
+            TotalQty :totalProduct,
+            ListDetail : ListDetail
+        }
+
+        $("#header-modal-xl").empty()
+        $("#header-modal-xl").html("<h3> Checkout preview </h3>")
+
+        $("#body-modal-xl").empty()
+
+        if(ListDetail.length <= 0){
+
+            $("#body-modal-xl").text("<i> please select the product </i>")
+        }
+        else{
+            $("#body-modal-xl").load("/Order/Checkout", dataHeader)
+
+        }
+
+     
+        $("#modal-xl").modal("show")
+
+    })
+
+    function addList(Id, obj) {
+
+        const index = ListDetail.map(a => a.IdProduct).indexOf(Id)
+
+        if (index == -1) {
+            ListDetail.push(obj)
+
+        }
+        else {
+            ListDetail[index].Qty = obj.Qty
+            ListDetail[index].SubTotal = obj.SubTotal
+        }
+
+    }
+
+    function removeList(Id, obj) {
+
+        const index = ListDetail.map(a => a.IdProduct).indexOf(Id)
+
+        if (index != -1) {
+
+            ListDetail[index].Qty = obj.Qty
+            ListDetail[index].SubTotal = obj.SubTotal
+
+            if (obj.Qty == 0) {
+                ListDetail.splice(index, 1)
+            }
+
+        }
+    }
 </script>

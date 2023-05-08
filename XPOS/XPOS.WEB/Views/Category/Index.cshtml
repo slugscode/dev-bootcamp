@@ -15,23 +15,23 @@
             <form asp-action="Index" asp-route-pageSize="@ViewBag.pageSize">
 
                 <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="searchString" 
-                        value="@ViewBag.CurrentFilter" 
-                        class="form-control float-right" 
-                        placeholder="Search">        
-            
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                    </button>
+                    <input type="text" name="searchString"
+                           value="@ViewBag.CurrentFilter"
+                           class="form-control float-right"
+                           placeholder="Search">
+
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
             </form>
         </div>
     </div>
 
-  
-@*<a class="btn btn-primary" asp-controller="Category" asp-action="Create">Create</a>*@
+
+    @*<a class="btn btn-primary" asp-controller="Category" asp-action="Create">Create</a>*@
 
 
     <!-- /.card-header -->
@@ -40,19 +40,21 @@
             <thead>
                 <tr>
                     <th scope="col">
-                        <a asp-action="Index" 
-                        asp-route-sortOrder="@ViewBag.IdSort"
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewBag.IdSort"
+                           asp-route-pageSize="@ViewBag.pageSize"
                            asp-route-currentFilter="@ViewBag.CurrentFilter">
                             Id
                         </a>
                     </th>
 
-                    <th scope="col">                        
-                        <a asp-action="Index" 
-                        asp-route-sortOrder="@ViewBag.NameSort"
+                    <th scope="col">
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewBag.NameSort"
+                           asp-route-pageSize="@ViewBag.pageSize"
                            asp-route-currentFilter="@ViewBag.CurrentFilter">
                             NamaCategory
-                        </a>                        
+                        </a>
                     </th>
 
                     <th scope="col">Description</th>
@@ -68,13 +70,13 @@
                         <td>@item.NamaCategory</td>
                         <td>@item.Description</td>
                         <td>
-          @*                <a class="btn btn-success" asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                            <a class="btn btn-warning" asp-controller="Category" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
-                            <a class="btn btn-danger" asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                            @*                <a class="btn btn-success" asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-warning" asp-controller="Category" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
+                        <a class="btn btn-danger" asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
 
-                        <button class="btn btn-success btn_Edit" dataid="@item.Id">Edit</button>
-                        <button class="btn btn-warning btn_Detail" dataid="@item.Id">Detail</button>
-                        <button class="btn btn-danger btn_Delete" dataid="@item.Id">Delete</button>
+                            <button class="btn btn-success btn_Edit" dataid="@item.Id">Edit</button>
+                            <button class="btn btn-warning btn_Detail" dataid="@item.Id">Detail</button>
+                            <button class="btn btn-danger btn_Delete" dataid="@item.Id">Delete</button>
 
                         </td>
                     </tr>
@@ -133,66 +135,66 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
 
 @*Jcquery*@
-<script>
+    <script>
         $("#pageSize").val(@ViewBag.pageSize)
 
         $("#pageSize").change(function () {
             $("#form-pageSize").submit();
         })
 
-    $("#btn_create").click(function(){
+        $("#btn_create").click(function () {
 
-        $("#header-modal-default").empty()
-        $("#header-modal-default").text("Create Category")
+            $("#header-modal-default").empty()
+            $("#header-modal-default").text("Create Category")
 
-        $("#body-modal-default").empty()
-        $("#body-modal-default").load("/Category/Create")
-        $("#modal-default").modal("show")
+            $("#body-modal-default").empty()
+            $("#body-modal-default").load("/Category/Create")
+            $("#modal-default").modal("show")
 
-    })
+        })
 
-    $(".btn_Edit").click(function () {
-        var Id =$(this).attr("dataid")
+        $(".btn_Edit").click(function () {
+            var Id = $(this).attr("dataid")
 
-        $("#header-modal-default").empty()
-        $("#header-modal-default").text("Edit Category")
+            $("#header-modal-default").empty()
+            $("#header-modal-default").text("Edit Category")
 
-        $("#body-modal-default").empty()
-        $("#body-modal-default").load("/Category/Edit?Id="+Id)
-        $("#modal-default").modal("show")
-    })
+            $("#body-modal-default").empty()
+            $("#body-modal-default").load("/Category/Edit?Id=" + Id)
+            $("#modal-default").modal("show")
+        })
 
-    $(".btn_Detail").click(function () {
+        $(".btn_Detail").click(function () {
 
-        var Id = $(this).attr("dataid")
-        
-        $("#header-modal-default").empty()
-        $("#header-modal-default").text("Detail Category")
+            var Id = $(this).attr("dataid")
 
-        $("#body-modal-default").empty()
-        $("#body-modal-default").load("/Category/Detail?Id=" + Id)
-        $("#modal-default").modal("show")
+            $("#header-modal-default").empty()
+            $("#header-modal-default").text("Detail Category")
 
-    })
+            $("#body-modal-default").empty()
+            $("#body-modal-default").load("/Category/Detail?Id=" + Id)
+            $("#modal-default").modal("show")
 
-    $(".btn_Delete").click(function () {
+        })
 
-        var Id = $(this).attr("dataid")
+        $(".btn_Delete").click(function () {
 
-        $("#header-modal-default").empty()
-        $("#header-modal-default").text("Delete Category")
+            var Id = $(this).attr("dataid")
 
-        $("#body-modal-default").empty()
-        $("#body-modal-default").load("/Category/Delete?Id=" + Id)
-        $("#modal-default").modal("show")
+            $("#header-modal-default").empty()
+            $("#header-modal-default").text("Delete Category")
 
-    })
+            $("#body-modal-default").empty()
+            $("#body-modal-default").load("/Category/Delete?Id=" + Id)
+            $("#modal-default").modal("show")
+
+        })
 
 
-</script>
+    </script>
 
 
 

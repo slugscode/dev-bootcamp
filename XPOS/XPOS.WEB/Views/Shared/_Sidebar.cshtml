@@ -45,7 +45,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a asp-action="Index" asp-controller="Category" class="nav-link active">
+                            <a asp-action="Index" asp-controller="Category" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Category</p>
                             </a>
@@ -61,13 +61,7 @@
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Product</p>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-action="Index" asp-controller="Order" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Order</p>
-                            </a>
-                        </li>
+                        </li>                      
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -83,16 +77,16 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
-                            Layout Options
+                            Catalogue
                             <i class="fas fa-angle-left right"></i>
                             <span class="badge badge-info right">6</span>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="pages/layout/top-nav.html" class="nav-link">
+                            <a asp-action="Menu" asp-controller="Order" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Top Navigation</p>
+                                <p>Menu Order</p>
                             </a>
                         </li>
                         <li class="nav-item">

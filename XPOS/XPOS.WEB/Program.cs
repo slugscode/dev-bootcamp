@@ -12,7 +12,10 @@ builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<VariantService>();
 
 //Add service untuk panggil api product
+
 builder.Services.AddScoped<ProductService>();
+
+builder.Services.AddScoped<OrderService>();
 
 var app = builder.Build();
 

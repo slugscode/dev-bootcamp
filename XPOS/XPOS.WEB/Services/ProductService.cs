@@ -34,7 +34,7 @@ namespace XPOS.WEB.Services
         {
             VMProduct data = new VMProduct();
 
-            string url = RouteAPI + $"api/APIProduct/GetbyId/{Id}";
+            string url = RouteAPI + $"api/APIProduct/GetById/{Id}";
             string apiRespons = await client.GetStringAsync(url);
 
             data = JsonConvert.DeserializeObject<VMProduct>(apiRespons);
@@ -51,8 +51,8 @@ namespace XPOS.WEB.Services
 
             if (request.IsSuccessStatusCode)
             {
-                var apirespons = await request.Content.ReadAsStringAsync();
-                respons = JsonConvert.DeserializeObject<VMRespons>(apirespons);
+                var apiRespons = await request.Content.ReadAsStringAsync();
+                respons = JsonConvert.DeserializeObject<VMRespons>(apiRespons);
             }
             else
             {
