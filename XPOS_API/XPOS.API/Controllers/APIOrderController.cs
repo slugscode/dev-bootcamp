@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing.Text;
+using System.Globalization;
 using XPOS.API.Models;
 using XPOS_ViewModels;
 
@@ -107,7 +108,7 @@ namespace XPOS.API.Controllers
 
             TblOrderHeader dataLast = db.TblOrderHeaders.OrderByDescending(a => a.CodeTransaction).FirstOrDefault();
 
-            if(dataLast == null)
+            if (dataLast == null)
             {
                 digit = "00001";
             }
@@ -124,10 +125,100 @@ namespace XPOS.API.Controllers
                 defaultDigit = defaultDigit.Substring(lenCode, 5);
 
                 digit = defaultDigit;
-                
+
 
             }
-            return code+digit;
+            return code + digit;
         }
+
+
+        [HttpGet("OrderHistory")]
+        public List<VMOrderHeader> OrderHistory()
+        {
+            List<VMOrderHeader> dataOrder = new List<VMOrderHeader>();
+
+            dataOrder = (from head in db.TblOrderHeaders
+                         where head.IsDelete == false
+                         select new VMOrderHeader
+                         {
+                             Id = head.Id,
+                             IdCustomer = head.Id,
+                             Amount = head.Amount,
+                             CodeTransaction = head.CodeTransaction,
+                             TotalQty = head.TotalQty,
+                             CreateDate = head.CreateDate,
+
+                             ListDetail = (from d in db.TblOrderDetails
+                                           join p in db.TblProducts
+                                           on d.IdProduct equals p.Id
+                                           where d.IdHeader == head.Id
+                                           select new VMOrderDetail
+                                           {
+                                               Id = d.Id,
+                                               IdProduct = d.IdProduct,
+                                               NameProduct = p.NameProduct,
+                                               Price = p.Price,
+                                               Qty = d.Qty,
+                                               SubTotal = d.SubTotal
+
+
+                                           }).ToList()
+
+                         }).ToList();
+            return dataOrder;
+            
+        }
+
+        //public string GetDataOrderHeaderDetail(int IdCustomer)
+        //{
+        //    DateTime dt = DateTime.Now;
+        //    var hari = dt.ToString("dddd", new CultureInfo("Id-ID"));
+        //    var jam = dt.Hour;
+        //    var menit = dt.Minute;
+
+        //    List<VMOrderHeader> head = (from h in db.TblOrderHeaders
+        //                                where h.IsDelete == false
+        //                                && h.CreateBy == IdCustomer
+        //                                select new VMOrderHeader
+        //                                {
+        //                                    Id = h.Id,
+        //                                    Amount = h.Amount,
+
+        //                                    TotalQty = h.TotalQty,
+        //                                    IsCheckout = h.IsCheckout,
+        //                                    IdCustomer = h.IdCustomer,
+
+        //                                    CodeTransaction = h.CodeTransaction,
+        //                                    CreateDate = h.CreateDate,
+
+        //                                    ListDetail = (from d in db.TblOrderDetails
+        //                                                  join p in db.TblProducts
+        //                                                  on d.IdProduct equals p.Id
+        //                                                  where d.Id == IdCustomer
+        //                                                  select new VMOrderDetail
+        //                                                  {
+        //                                                      Id = d.Id,
+        //                                                  
+        //                                                      IdProduct = d.IdProduct,
+
+        //                                                      NameProduct = p.NameProduct,
+
+
+        //                                                      Qty = d.Qty,
+
+        //                                                      SubTotal = d.SubTotal,
+        //                                                    
+
+        //                                                  }).ToList()
+
+
+
+        //});
+
+        //   return head;
+
+
+           
+        //}
     }
 }

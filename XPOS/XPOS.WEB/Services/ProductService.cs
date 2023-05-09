@@ -52,6 +52,7 @@ namespace XPOS.WEB.Services
             if (request.IsSuccessStatusCode)
             {
                 var apiRespons = await request.Content.ReadAsStringAsync();
+
                 respons = JsonConvert.DeserializeObject<VMRespons>(apiRespons);
             }
             else

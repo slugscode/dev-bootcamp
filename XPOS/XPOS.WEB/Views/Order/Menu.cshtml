@@ -128,11 +128,11 @@
                 obj.IdProduct = Id
                 obj.Qty = total
                 obj.Price = price
-                obj.SubTotal = totalProduct * price
+                obj.SubTotal = total * price
                 obj.NameProduct = name
                 addList(Id, obj)
 
-                //console.log(obj)
+                console.log(ListDetail)
 
             
             }
@@ -168,7 +168,7 @@
             obj.IdProduct = Id
             obj.Qty = total
             obj.Price = price
-            obj.SubTotal = totalProduct * price
+            obj.SubTotal = total * price
             obj.NameProduct = name
             removeList(Id, obj)
 

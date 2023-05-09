@@ -19,7 +19,6 @@ namespace XPOS_ViewModels
         public DateTime CreateDate { get; set; }
         public int? UpdateBy { get; set; }
         public DateTime? UpdateDate { get; set; }
-
-        public List<VMOrderDetail> ListDetail { get; set; }
+        public List<VMOrderDetail>? ListDetail { get; set; }
     }
 }

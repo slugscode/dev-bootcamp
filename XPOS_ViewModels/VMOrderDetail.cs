@@ -12,7 +12,7 @@ namespace XPOS_ViewModels
         public int IdHeader { get; set; }
         public int IdProduct { get; set; }
         public string? NameProduct { get; set; }
-        public int Price { get; set; }
+        public decimal Price { get; set; }
         public int Qty { get; set; }
         public decimal SubTotal { get; set; }
         public bool? IsDelete { get; set; }

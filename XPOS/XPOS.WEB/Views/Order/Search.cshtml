@@ -1,0 +1,81 @@
+﻿@using XPOS_ViewModels;
+@*@model List<VMProduct>*@
+@model List<VMOrderHeader>
+
+<form asp-action="OrderHistory">
+
+    <div class="form-group">
+        <label for="searchString">Code Transaction</label>
+        <input type="text" class="form-control" name="searchString" value="@ViewBag.CurrentFilter"
+               id="searchString" placeholder="Search Code">
+    </div>
+
+    <div class="row">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="MinPrice">Min Price</label>
+                    <input type="number" class="form-control" name="MinPrice" value="@ViewBag.FilterMinPrice"
+                           id="MinPrice" placeholder="Search Min Price">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="MaxPrice">Max Price</label>
+                    <input type="number" class="form-control" name="MaxPrice" value="@ViewBag.FilterMaxPrice"
+                           id="MaxPrice" placeholder="Search Max Price">
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="MinDate">Min Date</label>
+                    <input type="date" class="form-control" name="MinDate" id="MinDate" value="@ViewBag.FilterMinDate"
+                           id="MinDate" placeholder="Search Min Date">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="MaxDate">Max Date</label>
+                    <input type="date" class="form-control" name="MaxDate" id="MaxDate" max="DateTime.Now" value="@ViewBag.FilterMaxDate"
+                           id="MaxDate" placeholder="Search Max Date">
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <a asp-action="OrderHistory" class="btn btn-light">Cancel</a>
+    <button type="submit" class="btn btn-primary float-right">Search</button>
+
+</form>
+
+<script>
+    $("#MinDate").change(function(){
+        var min = $(this).val()
+
+        $("#MaxDate").attr({"min" :min})
+    })
+
+    $("#MaxDate").change(function () {
+        var max = $(this).val()
+
+        $("#MinDate").attr({ "max": min })
+    })
+</script>

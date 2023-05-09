@@ -43,5 +43,18 @@ namespace XPOS.WEB.Services
 
             return respon;
         }
+
+        public async Task<List<VMOrderHeader>> OrderHistory()
+        {
+            List<VMOrderHeader> data = new List<VMOrderHeader>();
+
+            string url = RouteAPI + $"api/APIOrder/OrderHistory/";
+            string apiRespons = await client.GetStringAsync(url);
+            data = JsonConvert.DeserializeObject<List<VMOrderHeader>>(apiRespons);
+
+
+            return data;
+
+        }
     }
 }
