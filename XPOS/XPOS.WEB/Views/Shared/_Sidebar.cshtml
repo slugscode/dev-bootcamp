@@ -1,4 +1,13 @@
-﻿<!-- Main Sidebar Container -->
+﻿@using XPOS.WEB.Services;
+@inject OrderService order_service
+
+@{
+    int idUser=1;
+    int count = await order_service.countTransaction(idUser);
+}
+
+
+<!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
@@ -79,7 +88,7 @@
                         <p>
                             Transaction
                             <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-info right">6</span>
+                            <span class="badge badge-info right">@count</span>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">

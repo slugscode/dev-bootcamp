@@ -1,0 +1,198 @@
+﻿@using XPOS_ViewModels;
+@model VMUserCustomer
+
+<div class="register-logo">
+    <a href="../../index2.html"><b>Register</b>LTE</a>
+</div>
+<div class="card">
+    <div class="card-body register-card-body">
+        <p class="login-box-msg">Register a new membership</p>
+
+        <form method="post" id="form_register">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="NameCustomer" value="@Model.NameCustomer" name="NameCustomer" placeholder="Full name">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="Email" value="@Model.Email" name="Email" placeholder="Email">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-envelope"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="Phone" value="@Model.Phone" name="Phone" placeholder="Phone">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-envelope"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="Address" value="@Model.Address" name="Address" placeholder="Address">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-envelope"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="Password" value="@Model.Password" name="Password" placeholder="Password">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="Password" value="@Model.Password" name="Retype" placeholder="Retype password">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+
+                <div class="col-8">
+                    <label for="IdRole" class="form-label" placeholder="--Select Role--">Role</label>
+                    @Html.DropDownListFor(a => a.IdRole,
+                    new SelectList(ViewBag.ListRole, "Id","RoleName"),"Select Role",
+                    new{@class="form-control"})
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <div class="icheck-primary">
+                        <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                        <label for="agreeTerms">
+                            I agree to the <a href="#">terms</a>
+                        </label>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-4">
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+
+        <div class="social-auth-links text-center" >
+            <p>- OR -</p>
+            <a class="btn btn-block btn-success" id="btn_back">
+                <i class="fab fa-google-plus mr-2"></i>
+                I already have a membership
+            </a>
+        </div>
+        <!-- /.form-box -->
+    </div>
+
+
+    <script>
+        $("#btn_back").click(function () {
+            $("#header-modal-default").empty()
+            $("#body-modal-default").load("/Auth/Login")
+            $("#modal-default").modal("show")
+        })
+
+        $("#form_register").validate({
+            errorClass: "is-invalid text-danger",
+            rules: {
+                NameCustomer: {
+                    required: true
+                },
+                Phone:{
+                    required: true,
+                    number: true
+                },
+                Email: {
+                    required: true,
+                    email: true},
+
+                Address: "required",
+
+                Password: {
+                    required: true
+                },
+                Retype: {
+                    required: true,
+                    equalsTo: "#Password"
+                },
+                IdRole:{
+                    required: true,
+                    terms:"required"
+                }
+
+            },
+
+            messages: {
+                NameCustomer: {
+                    required: "Please enter FullName"
+                },
+                Phone: {
+                    required: "Please enter Phone",
+                    number: "Please enter number only"
+                },
+
+                Email: {
+                    required:"Please enter Email",
+                    email: "Email is already taken"
+                },
+                Address: "Please enter Address",
+                Password: {
+                    required: "Please enter password"
+                },
+                RetypePassword: {
+                    required: "Please Retype Password",
+                    equalsTo: "Password not match"
+                },
+                IdRole: {
+                    required:"Please select Role",
+                    terms: "Please accept our policy"
+                }
+
+            },
+
+            submitHandler: function (form) {
+
+                var dataForm = $(form).serializeArray();
+
+                $.ajax({
+                    url: "/Auth/Register",
+                    method: "post",
+                    data: data,
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+
+                    success: function (respon) {
+
+
+                        if (respon.dataRespon.success) {
+                            $("#modal-default").modal("hide")
+
+                            toastr.success(respon.dataRespon.message)
+
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+
+                        }
+                        else {
+                            toastr.error(respon.dataRespon.message)
+                        }
+                    }
+
+                })
+            }
+
+        })
+    </script>
+

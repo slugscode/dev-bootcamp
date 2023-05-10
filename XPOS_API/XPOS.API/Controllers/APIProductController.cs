@@ -93,7 +93,7 @@ namespace XPOS.API.Controllers
             catch(Exception e)
             {
                 respon.Success = false;
-                respon.Message = "Failes Save: " + e.InnerException;
+                respon.Message = "Failed Save: " + e.InnerException;
 
             }
             return respon;

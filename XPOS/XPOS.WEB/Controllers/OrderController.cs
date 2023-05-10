@@ -59,6 +59,9 @@ namespace XPOS.WEB.Controllers
             ViewBag.FilterMinPrice = pg.MinPrice ?? 0;
             ViewBag.FilterMaxPrice = pg.MaxPrice ?? 0;
 
+            ViewBag.CountTransaction = await order_service.countTransaction(IdUser);
+
+
             var cultureinfo = new System.Globalization.CultureInfo("en-US");
 
             if (pg.MinDate != null)

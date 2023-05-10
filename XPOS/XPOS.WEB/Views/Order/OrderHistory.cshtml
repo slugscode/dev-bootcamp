@@ -12,18 +12,23 @@
         class="form-control float-right"
         placeholder="Search">*@
 
-        <div class="input-group-append">
-            <button type="button" class="btn btn-success float-right" id="btn_search">
-                <i class="fas fa-search"></i> Search
-            </button>
-        </div>
+
+        <h5>History Order(@ViewBag.CountTransaction)</h5>
+
+
+        <button type="button" class="btn btn-success floated right" id="btn_search">
+            <i class="fas fa-search"></i> Search
+        </button>
+
 
         <div class="card-body">
             <div class="ml-3">
-                  <div class="text">Search Result</div>
-                @if(@ViewBag.FilterMinDate != null)
+
+         Search Result<br />
+
+                @if (@ViewBag.FilterMinDate != null)
                 {
-                    <span class="bg-red">Min Date: @ViewBag.FilterMinDate</span>
+                    <span class="bg-green">Min Date: @ViewBag.FilterMinDate</span>
                 }
                 @if (@ViewBag.FilterMaxDate != null)
                 {
@@ -31,14 +36,12 @@
                 }
                 @if (@ViewBag.FilterMinPrice != null)
                 {
-                    <span class="bg-red">Min Price: @ViewBag.FilterMinPrice</span>
+                    <span class="bg-green">Min Price: @ViewBag.FilterMinPrice</span>
                 }
                 @if (@ViewBag.FilterMaxPrice != null)
                 {
-
                     <span class="bg-red">Max Price: @ViewBag.FilterMaxPrice</span>
-                    
-                }          
+                }
 
             </div>
 
@@ -130,7 +133,7 @@
 
             <div class="col-10>
 
-                <div class="float-right">
+                <div class="floated right">
 
                     Page @Model.PageIndex of Page @Model.TotalPages
 

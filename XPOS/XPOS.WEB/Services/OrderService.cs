@@ -56,5 +56,21 @@ namespace XPOS.WEB.Services
             return data;
 
         }
+
+        public async Task<int> countTransaction(int idUser)
+        {
+
+            int count = 0;
+
+            string url = RouteAPI + $"api/APIOrder/countTransaction/{idUser}";
+
+            string apiRespons = await client.GetStringAsync(url);
+
+            count = JsonConvert.DeserializeObject<int>(apiRespons);
+
+
+            return count;
+
+        }
     }
 }

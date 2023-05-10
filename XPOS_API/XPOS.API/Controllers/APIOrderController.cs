@@ -169,56 +169,17 @@ namespace XPOS.API.Controllers
             
         }
 
-        //public string GetDataOrderHeaderDetail(int IdCustomer)
-        //{
-        //    DateTime dt = DateTime.Now;
-        //    var hari = dt.ToString("dddd", new CultureInfo("Id-ID"));
-        //    var jam = dt.Hour;
-        //    var menit = dt.Minute;
+        [HttpGet("countTransaction/{idUser}")]
 
-        //    List<VMOrderHeader> head = (from h in db.TblOrderHeaders
-        //                                where h.IsDelete == false
-        //                                && h.CreateBy == IdCustomer
-        //                                select new VMOrderHeader
-        //                                {
-        //                                    Id = h.Id,
-        //                                    Amount = h.Amount,
+        public int countTransaction(int idUser)
+        {
+            int count = 0;
 
-        //                                    TotalQty = h.TotalQty,
-        //                                    IsCheckout = h.IsCheckout,
-        //                                    IdCustomer = h.IdCustomer,
+            count = db.TblOrderHeaders.Where(a => a.IdCustomer == idUser).Count();
 
-        //                                    CodeTransaction = h.CodeTransaction,
-        //                                    CreateDate = h.CreateDate,
+            return count;
 
-        //                                    ListDetail = (from d in db.TblOrderDetails
-        //                                                  join p in db.TblProducts
-        //                                                  on d.IdProduct equals p.Id
-        //                                                  where d.Id == IdCustomer
-        //                                                  select new VMOrderDetail
-        //                                                  {
-        //                                                      Id = d.Id,
-        //                                                  
-        //                                                      IdProduct = d.IdProduct,
+        }
 
-        //                                                      NameProduct = p.NameProduct,
-
-
-        //                                                      Qty = d.Qty,
-
-        //                                                      SubTotal = d.SubTotal,
-        //                                                    
-
-        //                                                  }).ToList()
-
-
-
-        //});
-
-        //   return head;
-
-
-           
-        //}
     }
 }
