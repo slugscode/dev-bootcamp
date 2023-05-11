@@ -11,25 +11,19 @@
                 <th scope="col">Sub Total</th>
             </tr>
         </thead>
-@*        <tbody class="table-group-divider">
-            <tr>
-                <td>A</td>
-                <td>3</td>
-                <td>3</td>
-                <td>3</td>
-            </tr>
+        <tbody class="table-group-divider">
+            @foreach (var item in Model.ListDetail)
+            {
+                <tr>
+                    <td>@item.NameProduct</td>
+                    <td>@item.Qty</td>
+                    <td>@item.Price</td>
+                    <td>@item.SubTotal</td>
+                </tr>
+            }
+        </tbody>
 
-        </tbody>*@
 
-        @foreach (var item in Model.ListDetail)
-        {
-            <tr>
-                <td>@item.NameProduct</td>
-                <td>@item.Qty</td>
-                <td>@item.Price</td>
-                <td>@item.SubTotal</td>
-            </tr>
-        }
 
     </table>
 
@@ -50,6 +44,7 @@
 
             <div class="table-responsive">
                 <table class="table">
+
                     <tbody>
                         <tr>
                             <th style="width:50%">Subtotal:</th>
@@ -60,9 +55,9 @@
                             <td>Rp @Model.Amount</td>
 
                         </tr>
-                        
-                          
-                        
+
+
+
                     </tbody>
                 </table>
             </div>
@@ -78,15 +73,15 @@
 
 
 <script>
-    $("#btn_submit").click(function(){
+    $("#btn_submit").click(function () {
         $.ajax({
 
-            url:"/Order/SubmitPayment",
-            data:dataHeader,
-            method:"post",
-            datatype:"json",
+            url: "/Order/SubmitPayment",
+            data: dataHeader,
+            method: "post",
+            datatype: "json",
 
-            success:function(respon){
+            success: function (respon) {
                 toastr.success("Data saved")
 
             }

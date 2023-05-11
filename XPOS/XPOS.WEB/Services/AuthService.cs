@@ -32,34 +32,54 @@ namespace XPOS.WEB.Services
             return listRole;
         }
 
-    //public async Task<VMRespons> Register(VMUserCustomer data)
-    //{
-    //    string Datajson = JsonConvert.SerializeObject(data);
+        public async Task<VMRespons> Register(VMUserCustomer dataRegist)
+        {
+            string Datajson = JsonConvert.SerializeObject(dataRegist);
+            var content = new StringContent(Datajson, UnicodeEncoding.UTF8, "application/json");
+            string url = RouteAPI + $"api/APIAuth/Register";
 
-    //    var content = new StringContent(Datajson, UnicodeEncoding.UTF8, "application/json");
+            var request = await client.PostAsync(url, content);
 
-    //    string url = RouteAPI + $"api/APIAuth/GetAll";
+            if (request.IsSuccessStatusCode)
+            {
+                var apiRespons = await request.Content.ReadAsStringAsync();
+                respon = JsonConvert.DeserializeObject<VMRespons>(apiRespons);
+            }
+            else
+            {
+                respon.Success = false;
+                respon.Message = $"{request.StatusCode}:{request.ReasonPhrase}";
+            }
 
-    //    var request = await client.PostAsync(url, content);
+            return respon;
+        }
+        public async Task<bool> CheckEmailDuplicate (string Email)
+        {
+            bool isDuplicate = false;
 
-    //    if (request.IsSuccessStatusCode)
-    //    {
-    //        var apiRespons = await request.Content.ReadAsStringAsync();
-    //        respon = JsonConvert.DeserializeObject<VMRespons>(apiRespons);
-    //    }
-    //    else
-    //    {
-    //        respon.Success = false;
-    //        respon.Message = $"{request.StatusCode}:{request.ReasonPhrase}";
+            TblUser dataEmail = new TblUser();
+
+            string apiRespons = await client.GetStringAsync(RouteAPI + $"api/APIAuth/CheckEmailDuplicate/{Email}");
+
+            isDuplicate = JsonConvert.DeserializeObject<bool>(apiRespons);
+
+            return isDuplicate;
             
-    //    }
+        }
 
+        public async Task<bool> login(string Email,string Password)
+        {
+            bool isExist = false;
 
-    //    return respon;
-    //}
+            TblUser dataLogin= new TblUser();
 
+            string apiRespons = await client.GetStringAsync(RouteAPI + $"api/APIAuth/Login/{Email}/{Password}");
 
+            isExist = JsonConvert.DeserializeObject<bool>(apiRespons);
 
+            return isExist;
+
+        }
 
     }
 }

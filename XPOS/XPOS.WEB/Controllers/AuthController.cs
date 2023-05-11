@@ -12,7 +12,7 @@ namespace XPOS.WEB.Controllers
         private readonly IWebHostEnvironment webHost;
 
 
-        private int Iduser = 1;
+        private int idUser = 1;
 
         public AuthController(AuthService _authservice, IWebHostEnvironment _webHost)
         {
@@ -27,10 +27,8 @@ namespace XPOS.WEB.Controllers
             return PartialView();
         }
 
-    
         public async Task<IActionResult> Register()
         {
-
             VMUserCustomer data = new VMUserCustomer();
 
             List<TblRole> listRole = await auth_service.GetAllRole();
@@ -40,22 +38,32 @@ namespace XPOS.WEB.Controllers
             return PartialView(data);
         }
 
-        //public async Task<JsonResult> Register(VMUserCustomer data)
-        //{
-        //    data.CreatedBy = Iduser;
+        [HttpPost]
+        public async Task<IActionResult> Register(VMUserCustomer dataRegist)
+        {
+            VMRespons respon = new VMRespons();
 
-        //    VMRespons respon = await auth_service.Register(data);
+            dataRegist.CreatedBy = idUser;
+            dataRegist.IdUser = idUser;
 
-        //    ViewBag.ListRole = await auth_service.GetAllRole();
+            respon = await auth_service.Register(dataRegist);
 
-        
-        //    return Json(respon);
-        //}
 
-        //public async Task<JsonResult> CheckEmailDuplicate(string Email)
-        //{
-        //    bool isDuplicate = await auth_service.CheckEmailDuplicate(Email);
-        //    return Json(isDuplicate);
-        //}
+            return Json(respon);
+        }
+        public async Task<JsonResult> CheckEmailDuplicate(string Email)
+        {
+            bool isDuplicate = await auth_service.CheckEmailDuplicate(Email);
+
+            return Json(isDuplicate);
+        }
+
+        public async Task<JsonResult> checklogin(string Email, string Password)
+        {
+            bool isExist = await auth_service.login(Email,Password);
+
+            return Json(isExist);
+        }
+
     }
 }

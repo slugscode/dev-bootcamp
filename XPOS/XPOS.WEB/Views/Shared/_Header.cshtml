@@ -148,7 +148,9 @@
 <script>
 
     $("#btn_login").click(function () {
-        $("#header-modal-default").empty()
+        $("#header-modal-default").remove()
+
+        $("#body-modal-default").empty()
         $("#body-modal-default").load("/Auth/Login")
         $("#modal-default").modal("show")
     })

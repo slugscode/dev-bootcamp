@@ -8,7 +8,7 @@
     <div class="card-body register-card-body">
         <p class="login-box-msg">Register a new membership</p>
 
-        <form method="post" id="form_register">
+        <form asp-action="Register" method="post" id="form_register">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" id="NameCustomer" value="@Model.NameCustomer" name="NameCustomer" placeholder="Full name">
                 <div class="input-group-append">
@@ -19,6 +19,7 @@
             </div>
             <div class="input-group mb-3">
                 <input type="text" class="form-control" id="Email" value="@Model.Email" name="Email" placeholder="Email">
+                <span id="val_email" class="is-invalid text-danger"></span>
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-envelope"></span>
@@ -72,7 +73,7 @@
                     <div class="icheck-primary">
                         <input type="checkbox" id="agreeTerms" name="terms" value="agree">
                         <label for="agreeTerms">
-                            I agree to the <a href="#">terms</a>
+                            I agree to the <a>terms</a>
                         </label>
                     </div>
                 </div>
@@ -84,7 +85,7 @@
             </div>
         </form>
 
-        <div class="social-auth-links text-center" >
+        <div class="social-auth-links text-center">
             <p>- OR -</p>
             <a class="btn btn-block btn-success" id="btn_back">
                 <i class="fab fa-google-plus mr-2"></i>
@@ -96,6 +97,7 @@
 
 
     <script>
+
         $("#btn_back").click(function () {
             $("#header-modal-default").empty()
             $("#body-modal-default").load("/Auth/Login")
@@ -106,15 +108,18 @@
             errorClass: "is-invalid text-danger",
             rules: {
                 NameCustomer: {
-                    required: true
-                },
-                Phone:{
                     required: true,
-                    number: true
+                    minlength:2
+                   
+                },
+                Phone: {
+                    required: true,
+                    minlength: 12
                 },
                 Email: {
                     required: true,
-                    email: true},
+                    email: true
+                },
 
                 Address: "required",
 
@@ -123,76 +128,97 @@
                 },
                 Retype: {
                     required: true,
-                    equalsTo: "#Password"
+                    equalTo: "#Password"
                 },
-                IdRole:{
-                    required: true,
-                    terms:"required"
-                }
+                IdRole: "required",
+                terms: "required"
 
             },
 
             messages: {
                 NameCustomer: {
-                    required: "Please enter FullName"
+                    required: "Please enter FullName",
+                    minlength:"must consist 2 character"
                 },
                 Phone: {
                     required: "Please enter Phone",
-                    number: "Please enter number only"
+                    minlength: "Must consistat least 12 character"
                 },
 
                 Email: {
-                    required:"Please enter Email",
+                    required: "Please enter Email",
                     email: "Email is already taken"
                 },
+
                 Address: "Please enter Address",
-                Password: {
-                    required: "Please enter password"
-                },
+
+                Password: "Please enter password",
+
                 RetypePassword: {
                     required: "Please Retype Password",
-                    equalsTo: "Password not match"
+                    equalTo: "Password not match"
                 },
                 IdRole: {
-                    required:"Please select Role",
-                    terms: "Please accept our policy"
-                }
+                    required: "Please select Role"
+
+                },
+                terms: "Please accept our policy"
 
             },
 
             submitHandler: function (form) {
 
-                var dataForm = $(form).serializeArray();
 
+                var email = $("#Email").val();
                 $.ajax({
-                    url: "/Auth/Register",
-                    method: "post",
-                    data: data,
-                    dataType: "json",
-                    contentType: false,
-                    processData: false,
+                    url: "/Auth/CheckEmailDuplicate",
+
+                    data: { Email: email },
+
 
                     success: function (respon) {
 
-
-                        if (respon.dataRespon.success) {
-                            $("#modal-default").modal("hide")
-
-                            toastr.success(respon.dataRespon.message)
-
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 2000);
-
+                        if (respon == true) {
+                            $("#val_email").text("Data is already exist")
+                            return false;
                         }
+
                         else {
-                            toastr.error(respon.dataRespon.message)
+
+                            var dataForm = $(form).serialize();
+
+                   
+
+                            $.ajax({
+                                url: "/Auth/Register",
+                                method: "post",
+                                data: dataForm,
+                                dataType: "json",
+
+                                success: function (respon) {
+                                    if (respon.success) {
+                                        toastr.success(respon.message)
+                                        $("#modal-default").modal("hide")                                       
+
+                                        $("#header-modal-default").empty()
+                                        $("#body-modal-default").load("/Auth/Login")
+                                        $("#modal-default").modal("show")
+                                    }
+                                    else{
+                                        toastr.error(respon.message)
+                                    }
+
+                                }
+
+                            })
+
                         }
+
                     }
 
                 })
-            }
 
+            }
         })
     </script>
 

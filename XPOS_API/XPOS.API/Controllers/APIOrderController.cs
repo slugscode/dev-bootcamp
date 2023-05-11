@@ -20,7 +20,6 @@ namespace XPOS.API.Controllers
         }
 
         [HttpPost("SubmitPayment")]
-
         public VMRespons SubmitPayment(VMOrderHeader dataHeader)
         {
             TblOrderHeader head = new TblOrderHeader();
@@ -130,7 +129,6 @@ namespace XPOS.API.Controllers
             }
             return code + digit;
         }
-
 
         [HttpGet("OrderHistory")]
         public List<VMOrderHeader> OrderHistory()

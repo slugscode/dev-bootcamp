@@ -6,9 +6,9 @@
     <div class="card-body login-card-body">
         <p class="login-box-msg">Sign in to start your session</p>
 
-        <form action="../../index3.html" method="post">
+        <form action="Login" method="post" id="form_login">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Email">
+                <input type="text" class="form-control" name="Email" id="Email" placeholder="Email">
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-envelope"></span>
@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Password">
+                <input type="text" class="form-control" name="Password" id="Password" placeholder="Password">
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-lock"></span>
@@ -34,10 +34,11 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-4">
-                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                    <button type="submit" id="val_login" class="btn btn-primary btn-block">Sign In</button>
                 </div>
                 <!-- /.col -->
             </div>
+
         </form>
 
         <div class="social-auth-links text-center mb-3">
@@ -63,9 +64,65 @@
 
 <script>
     $("#btn_register").click(function () {
-       
+
         $("#header-modal-default").empty()
         $("#body-modal-default").load("/Auth/Register")
         $("#modal-default").modal("show")
     })
+
+    $("#form_login").validate({
+
+        errorClass: "is-invalid text-danger",
+        rules: {
+            Email: {
+                required: true,
+                email: true
+            },
+            Password: {
+                required: true,
+                minlength: 2
+            }
+        },
+
+        message: {
+            Email: {
+                required: "please enter email",
+                email: "email is already taken"
+            },
+            Password: {
+                required: "please enter password",
+                minlength: 2
+            }
+
+        },
+
+        submitHandler: function (form) {
+
+            var email = $("#Email").val()
+            var password = $("#Password").val()
+
+            debugger
+
+            $.ajax({
+                url: "/Auth/checklogin",                
+                data: { Email: email, 
+                    Password: password },
+                datatype: "json",
+
+                success: function (respon) {
+                    if (respon == true) {
+                        toastr.success(respon.message)
+                        window.location.href = "/Home/Index"
+
+                    }
+                    else {
+                        $("#val_login").text(respon.message)
+                    }
+                }
+
+            })
+        }
+
+    })
+
 </script>
