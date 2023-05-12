@@ -67,18 +67,14 @@ namespace XPOS.WEB.Services
             
         }
 
-        public async Task<bool> login(string Email,string Password)
+        public async Task<VMUserCustomer> login(string Email,string Password)
         {
-            bool isExist = false;
-
-            TblUser dataLogin= new TblUser();
+            VMUserCustomer dataUserCustomer = new VMUserCustomer();            
 
             string apiRespons = await client.GetStringAsync(RouteAPI + $"api/APIAuth/Login/{Email}/{Password}");
+            dataUserCustomer = JsonConvert.DeserializeObject<VMUserCustomer>(apiRespons);
 
-            isExist = JsonConvert.DeserializeObject<bool>(apiRespons);
-
-            return isExist;
-
+            return dataUserCustomer;
         }
 
     }

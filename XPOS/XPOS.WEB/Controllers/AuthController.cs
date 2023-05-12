@@ -20,8 +20,6 @@ namespace XPOS.WEB.Controllers
             this.webHost = _webHost;
 
         }
-
-
         public IActionResult Login()
         {
             return PartialView();
@@ -60,9 +58,41 @@ namespace XPOS.WEB.Controllers
 
         public async Task<JsonResult> checklogin(string Email, string Password)
         {
-            bool isExist = await auth_service.login(Email,Password);
 
-            return Json(isExist);
+            VMUserCustomer dataUserCustomer = new VMUserCustomer();
+
+            dataUserCustomer = await auth_service.login(Email, Password);
+
+            VMRespons respon = new VMRespons();
+            
+            if(dataUserCustomer == null)
+            {
+
+                respon.Success = false;
+                respon.Message = $"Failed Login";
+
+
+            }
+            else
+            {
+                HttpContext.Session.SetString("NameCustomer", dataUserCustomer.NameCustomer);
+                HttpContext.Session.SetInt32("Id", dataUserCustomer.Id);
+                HttpContext.Session.SetInt32("IdUser", dataUserCustomer.IdUser);
+                HttpContext.Session.SetInt32("IdRole", dataUserCustomer.IdRole);
+
+                respon.Success = true;
+                respon.Message = $"Welcome {dataUserCustomer.NameCustomer}";
+
+            }
+
+            return Json(respon);
+        }
+
+        public IActionResult logout()
+        {
+            HttpContext.Session.Clear();
+
+            return Json(true);
         }
 
     }

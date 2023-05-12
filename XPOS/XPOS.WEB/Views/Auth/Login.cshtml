@@ -1,5 +1,4 @@
-﻿
-<div class="login-logo">
+﻿<div class="login-logo">
     <a href="../../index2.html"><b>Login</b>LTE</a>
 </div>
 <div class="card">
@@ -34,7 +33,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-4">
-                    <button type="submit" id="val_login" class="btn btn-primary btn-block">Sign In</button>
+                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                 </div>
                 <!-- /.col -->
             </div>
@@ -101,7 +100,7 @@
             var email = $("#Email").val()
             var password = $("#Password").val()
 
-            debugger
+           debugger
 
             $.ajax({
                 url: "/Auth/checklogin",                
@@ -110,7 +109,10 @@
                 datatype: "json",
 
                 success: function (respon) {
-                    if (respon == true) {
+                    debugger
+                  
+                    if (respon.success == true) {
+
                         toastr.success(respon.message)
                         window.location.href = "/Home/Index"
 

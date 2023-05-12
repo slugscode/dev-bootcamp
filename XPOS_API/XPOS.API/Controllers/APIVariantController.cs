@@ -42,7 +42,6 @@ namespace XPOS.API.Controllers
             return dataVariant;//jangan lupa untuk return 
         }
 
-
         [HttpGet("GetbyId /{Id}")]//untuk memunculkan atau mendapatkan satu objek sehingga digunakan TblVariant
         public VMVariant GetById(int Id)
         {
@@ -71,7 +70,6 @@ namespace XPOS.API.Controllers
             return dataVariant;
         }
         [HttpGet("GetVariantCategory/{idcategory}")]
-
         public List<VMVariant> GetDataByCategoryId(int idcategory)
 
         {
@@ -88,7 +86,6 @@ namespace XPOS.API.Controllers
             return dataList;
 
         }
-
         [HttpPost("PostVariant")]
         public VMRespons PostVariant(TblVariant data)
         {

@@ -27,25 +27,30 @@ namespace XPOS.WEB.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout(VMOrderHeader dataHeader)
         {
-            
+
             return PartialView(dataHeader);
         }
 
         [HttpPost]
         public async Task<IActionResult> SubmitPayment(VMOrderHeader dataHeader)
         {
-            VMRespons respon = new VMRespons();
 
             dataHeader.CreateBy = IdUser;
             dataHeader.IdCustomer = IdUser;
 
+            VMRespons respon = new VMRespons();
             respon = await order_service.SubmitPayment(dataHeader);
+
+            if (respon.Success)
+            {
+                return Json(respon);
+            }
 
 
             return Json(respon);
         }
 
-        
+
         public async Task<IActionResult> OrderHistory(VMSearchPage pg)
         {
             List<VMOrderHeader> dataOrder = await order_service.OrderHistory();
@@ -69,7 +74,7 @@ namespace XPOS.WEB.Controllers
                 string MinDate = pg.MinDate?.ToString("MM/dd/yyyy");
                 pg.MinDate = DateTime.Parse(MinDate, cultureinfo);
             }
-            
+
 
             if (pg.searchString != null)
             {
@@ -98,14 +103,14 @@ namespace XPOS.WEB.Controllers
 
             if (pg.MinDate != null || pg.MaxDate != null)
             {
-                pg.MinDate = pg.MinDate == null ? DateTime.MinValue: pg.MinDate;
-                pg.MaxDate= pg.MaxDate == null ? DateTime.MaxValue : pg.MaxDate;
+                pg.MinDate = pg.MinDate == null ? DateTime.MinValue : pg.MinDate;
+                pg.MaxDate = pg.MaxDate == null ? DateTime.MaxValue : pg.MaxDate;
 
                 dataOrder = dataOrder.Where(a => a.CreateDate >= pg.MinDate && a.CreateDate <= pg.MaxDate).ToList();
 
             }
 
-            return View(await PaginatedList<VMOrderHeader>.CreateAsync(dataOrder,pg.pageNumber?? 1,pg.pageSize ?? 3));
+            return View(await PaginatedList<VMOrderHeader>.CreateAsync(dataOrder, pg.pageNumber ?? 1, pg.pageSize ?? 3));
         }
 
         #region addons function

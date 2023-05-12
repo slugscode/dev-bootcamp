@@ -82,7 +82,21 @@
             datatype: "json",
 
             success: function (respon) {
-                toastr.success("Data saved")
+
+                if (respon.dataHeader.success) {
+                    $("#modal-default").modal("hide")
+
+                    toastr.success(respon.dataHeader.message)
+
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1000);
+
+                }
+                else {
+                    toastr.error(respon.dataHeader.message)
+                }
+
 
             }
         })

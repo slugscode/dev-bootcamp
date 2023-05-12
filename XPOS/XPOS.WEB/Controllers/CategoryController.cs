@@ -8,11 +8,14 @@ namespace XPOS.WEB.Controllers
     public class CategoryController : Controller
     {
         private CategoryService category_service;
+        private readonly IHttpContextAccessor contextAccessor;
         private int IdUser = 1;
 
-        public CategoryController(CategoryService _categoryservice)
+        public CategoryController(CategoryService _categoryservice, IHttpContextAccessor _contextAssessor)
         {
             this.category_service = _categoryservice;
+            this.contextAccessor = _contextAssessor;
+            this.IdUser = contextAccessor.HttpContext.Session.GetInt32("IdUser") ?? 1;
         }
         public async Task<IActionResult> Index(VMSearchPage pg)
         {

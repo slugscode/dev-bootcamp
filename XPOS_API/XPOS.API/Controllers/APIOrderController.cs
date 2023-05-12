@@ -92,9 +92,6 @@ namespace XPOS.API.Controllers
                 respon.Success = false;
                 respon.Message = e.Message;
             }
-
-
-
             return respon;
         }
 
@@ -168,7 +165,6 @@ namespace XPOS.API.Controllers
         }
 
         [HttpGet("countTransaction/{idUser}")]
-
         public int countTransaction(int idUser)
         {
             int count = 0;

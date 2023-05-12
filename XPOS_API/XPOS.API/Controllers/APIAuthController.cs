@@ -26,16 +26,6 @@ namespace XPOS.API.Controllers
 
             return listRole;
         }
-        [HttpGet("GetById/{Id}")]
-        public TblRole GetById(int Id)
-
-        {
-            TblRole dataRole = new TblRole();
-
-            dataRole = db.TblRoles.Where(a => a.Id == Id).FirstOrDefault();
-
-            return dataRole;
-        }
 
         [HttpPost("Register")]
         public VMRespons Register(VMUserCustomer dataRegist)
@@ -59,7 +49,7 @@ namespace XPOS.API.Controllers
                 TblCustomer cust = new TblCustomer();
 
                 cust.Id = dataRegist.Id;
-                cust.IdUser = dataRegist.IdUser;
+                cust.IdUser = user.Id;
                 cust.NameCustomer = dataRegist.NameCustomer;
                 cust.Phone = dataRegist.Phone;
                 cust.Address = dataRegist.Address;
@@ -105,25 +95,28 @@ namespace XPOS.API.Controllers
             return isDuplicate;
         }
         [HttpGet("Login/{Email}/{Password}")]
-
         public VMUserCustomer Login(string Email,string Password)
         {
-            VMUserCustomer data = new VMUserCustomer();
-                
+            VMUserCustomer dataUserCustomer = new VMUserCustomer();
+
+            dataUserCustomer = (from u in db.TblUsers
+                                join cu in db.TblCustomers
+                                on u.Id equals cu.IdUser
+                                where u.Email == Email && u.Password == Password
+                                select new VMUserCustomer
+                                {
+                                    Id = cu.Id,
+                                    IdRole = u.IdRole,
+                                    IdUser = cu.IdUser, 
+                                    NameCustomer = cu.NameCustomer
+
+
+                                }).FirstOrDefault();
+
+          
+          
+            return dataUserCustomer;            
             
-            //data = (from user in db.TblUser
-            //        join customer in db.TblCustomer
-            //   on )
-               
-
-            if (data != null)
-            {
-                isExist = true;
-            }
-
-            return isExist;
-
-
         }
 
     }
